@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -40,7 +41,29 @@ public class ViewStreamsActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(ViewStreamsActivity.this, "Go to nearby streams page",
+                Toast.makeText(ViewStreamsActivity.this, "Go to nearby streams page...",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // set search button behavior
+        Button searchButton = (Button) findViewById(R.id.button_viewstreams_search);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ViewStreamsActivity.this, "Search for streams...",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // set subscribed button behavior
+        Button subButton = (Button) findViewById(R.id.button_viewstreams_sub);
+        subButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ViewStreamsActivity.this, "Go to subscribed stream page...",
                         Toast.LENGTH_SHORT).show();
             }
         });

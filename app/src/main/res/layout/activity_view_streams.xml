@@ -68,7 +68,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/button_viewstreams_search"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="0.4"
@@ -87,7 +87,7 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/button_viewstreams_sub"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="My Subscribed Streams" />
