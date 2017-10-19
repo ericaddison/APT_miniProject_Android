@@ -44,7 +44,7 @@ public class ViewStreamsActivity extends AppCompatActivity {
         }
 
         public int getCount() {
-            return 10;//return mThumbURLs.length;
+            return mThumbURLs.length;
         }
 
         public Object getItem(int position) {
@@ -61,20 +61,28 @@ public class ViewStreamsActivity extends AppCompatActivity {
             if (convertView == null) {
                 // if it's not recycled, initialize some attributes
                 imageView = new ImageView(mContext);
-                imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+                imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setPadding(8, 8, 8, 8);
             } else {
                 imageView = (ImageView) convertView;
             }
 
-            Picasso.with(mContext).load("http://i.imgur.com/DvpvklR.png").into(imageView);
+            Picasso.with(mContext).load(mThumbURLs[position]).into(imageView);
             return imageView;
         }
 
         // references to our images
-        private Integer[] mThumbURLs = {
-                1
+        private String[] mThumbURLs = {
+                "https://cdn.pixabay.com/photo/2017/10/04/21/36/fly-agaric-2817723__340.jpg",
+                "https://cdn.pixabay.com/photo/2017/09/08/20/29/chess-2730034__340.jpg",
+                "https://cdn.pixabay.com/photo/2017/05/25/15/08/jogging-2343558__340.jpg",
+                "https://cdn.pixabay.com/photo/2017/09/30/15/10/pizza-2802332__340.jpg",
+                "https://cdn.pixabay.com/photo/2017/09/27/12/55/tiger-2791980__340.jpg",
+                "https://cdn.pixabay.com/photo/2017/09/24/19/20/moorabbis-2782862__340.jpg",
+                "https://cdn.pixabay.com/photo/2017/09/01/20/23/ford-2705402__340.jpg",
+                "https://cdn.pixabay.com/photo/2017/09/23/11/43/football-2778583__340.jpg",
+                "https://cdn.pixabay.com/photo/2017/08/19/10/00/eagle-2657888__340.jpg"
         };
     }
 
