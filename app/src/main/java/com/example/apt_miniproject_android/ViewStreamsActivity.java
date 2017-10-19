@@ -44,7 +44,7 @@ public class ViewStreamsActivity extends AppCompatActivity {
         }
 
         public int getCount() {
-            return mThumbURLs.length;
+            return 10;//return mThumbURLs.length;
         }
 
         public Object getItem(int position) {
@@ -68,7 +68,7 @@ public class ViewStreamsActivity extends AppCompatActivity {
                 imageView = (ImageView) convertView;
             }
 
-            imageView.setImageResource(mThumbURLs[position]);
+            Picasso.with(mContext).load("http://i.imgur.com/DvpvklR.png").into(imageView);
             return imageView;
         }
 
