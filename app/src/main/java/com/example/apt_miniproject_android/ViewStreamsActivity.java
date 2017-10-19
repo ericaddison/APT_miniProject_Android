@@ -22,13 +22,25 @@ public class ViewStreamsActivity extends AppCompatActivity {
 
 
 
+        // set gridview adapter and click behavior
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(new ImageAdapter(this));
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Toast.makeText(ViewStreamsActivity.this, "" + position,
+                Toast.makeText(ViewStreamsActivity.this, "You clicked on image " + position,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // set "nearby" click behavior
+        ImageView nearbyView = (ImageView) findViewById(R.id.nearby_image);
+        nearbyView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ViewStreamsActivity.this, "Go to nearby streams page",
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -61,7 +73,6 @@ public class ViewStreamsActivity extends AppCompatActivity {
             if (convertView == null) {
                 // if it's not recycled, initialize some attributes
                 imageView = new ImageView(mContext);
-                imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setPadding(8, 8, 8, 8);
             } else {
