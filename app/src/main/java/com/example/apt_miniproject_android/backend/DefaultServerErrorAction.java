@@ -22,6 +22,8 @@ public class DefaultServerErrorAction implements ServerErrorAction {
     @Override
     public void handleError(VolleyError error) {
         Snackbar.make(mView, "Error retrieving data from server", Snackbar.LENGTH_LONG).show();
-        Log.e("CommError", error.getMessage());
+        if(error.getMessage()!=null)
+            Log.e("CommError", error.getMessage());
+        Log.e("CommError", Log.getStackTraceString(error));
     }
 }
