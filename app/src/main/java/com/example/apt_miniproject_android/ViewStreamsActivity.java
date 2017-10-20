@@ -3,6 +3,7 @@ package com.example.apt_miniproject_android;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -10,9 +11,19 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.apt_miniproject_android.backend.ServerCommunicator;
+import com.example.apt_miniproject_android.backend.ServerResponseAction;
+import com.example.apt_miniproject_android.model.StreamInfo;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ViewStreamsActivity extends AppCompatActivity {
 
@@ -21,11 +32,27 @@ public class ViewStreamsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_streams);
 
-
-
         // set gridview adapter and click behavior
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this));
+        final GridView gridview = (GridView) findViewById(R.id.gridview);
+        final ImageURLAdapter adapter = new ImageURLAdapter(this);
+        gridview.setAdapter(adapter);
+
+        // load stream data from server
+        ServerCommunicator comm = new ServerCommunicator(findViewById(android.R.id.content));
+        comm.requestAllStreamInfoData(new ServerResponseAction() {
+            @Override
+            public void handleResponse(String response) {
+                Gson gson = new GsonBuilder().create();
+                StreamInfo[] streams = gson.fromJson(response, StreamInfo[].class);
+                for(StreamInfo stream : streams)
+                    adapter.addThumbURL(new ImageURL(stream.getCoverImageURL(), stream.getName()));
+                for(StreamInfo stream : streams)
+                    adapter.addThumbURL(new ImageURL(stream.getCoverImageURL(), stream.getName()));
+                for(StreamInfo stream : streams)
+                    adapter.addThumbURL(new ImageURL(stream.getCoverImageURL(), stream.getName()));
+                gridview.invalidate();
+            }
+        });
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
@@ -70,16 +97,27 @@ public class ViewStreamsActivity extends AppCompatActivity {
 
     }
 
+    public class ImageURL{
+        public String url;
+        public String name;
 
-    public class ImageAdapter extends BaseAdapter {
+        public ImageURL(String url, String name) {
+            this.url = url;
+            this.name = name;
+        }
+    }
+
+    public class ImageURLAdapter extends BaseAdapter {
         private Context mContext;
+        private List<ImageURL> mThumbURLs;
 
-        public ImageAdapter(Context c) {
+        public ImageURLAdapter(Context c) {
             mContext = c;
+            mThumbURLs = new ArrayList<>();
         }
 
         public int getCount() {
-            return mThumbURLs.length;
+            return mThumbURLs.size();
         }
 
         public Object getItem(int position) {
@@ -92,32 +130,54 @@ public class ViewStreamsActivity extends AppCompatActivity {
 
         // create a new ImageView for each item referenced by the Adapter
         public View getView(int position, View convertView, ViewGroup parent) {
-            ImageView imageView;
-            if (convertView == null) {
-                // if it's not recycled, initialize some attributes
-                imageView = new ImageView(mContext);
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setPadding(8, 8, 8, 8);
-            } else {
-                imageView = (ImageView) convertView;
-            }
+            myImageView imageView = new myImageView(mContext);
+            int parent_width = parent.getMeasuredWidth();
+            int spacing = parent_width/25;
+            int width = (parent_width-3*spacing)/4;
+            GridView.LayoutParams parms = new GridView.LayoutParams(width, 100+width);
+            ((GridView)parent).setHorizontalSpacing(spacing);
+            ((GridView)parent).setVerticalSpacing(spacing);
+            imageView.setLayoutParams(parms);
 
-            Picasso.with(mContext).load(mThumbURLs[position]).into(imageView);
+            if(!mThumbURLs.get(position).name.equals(""))
+                imageView.setImageURL(mThumbURLs.get(position), width);
+
             return imageView;
         }
 
-        // references to our images
-        private String[] mThumbURLs = {
-                "https://cdn.pixabay.com/photo/2017/10/04/21/36/fly-agaric-2817723__340.jpg",
-                "https://cdn.pixabay.com/photo/2017/09/08/20/29/chess-2730034__340.jpg",
-                "https://cdn.pixabay.com/photo/2017/05/25/15/08/jogging-2343558__340.jpg",
-                "https://cdn.pixabay.com/photo/2017/09/30/15/10/pizza-2802332__340.jpg",
-                "https://cdn.pixabay.com/photo/2017/09/27/12/55/tiger-2791980__340.jpg",
-                "https://cdn.pixabay.com/photo/2017/09/24/19/20/moorabbis-2782862__340.jpg",
-                "https://cdn.pixabay.com/photo/2017/09/01/20/23/ford-2705402__340.jpg",
-                "https://cdn.pixabay.com/photo/2017/09/23/11/43/football-2778583__340.jpg",
-                "https://cdn.pixabay.com/photo/2017/08/19/10/00/eagle-2657888__340.jpg"
-        };
+        public void addThumbURL(ImageURL url){
+            mThumbURLs.add(url);
+        }
+
+        private class myImageView extends LinearLayout {
+
+            private ImageView imageView;
+            private TextView textView;
+
+            public myImageView(Context context) {
+                super(context);
+                this.setOrientation(LinearLayout.VERTICAL);
+            }
+
+            public void setImageURL(ImageURL url, int width){
+
+                imageView = new ImageView(mContext);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setLayoutParams(new GridView.LayoutParams(width, width));
+
+                textView = new TextView(mContext);
+
+                if(!url.url.equals(""))
+                    Picasso.with(mContext).load(url.url).into(imageView);
+                textView.setText(url.name);
+
+                this.addView(imageView);
+                this.addView(textView);
+            }
+
+
+        }
+
     }
 
 
