@@ -1,6 +1,7 @@
 package com.example.apt_miniproject_android;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -34,6 +35,8 @@ public class ViewStreamsButtonFragment extends Fragment {
 
     public void gotoStreamsPage(View v){
         Toast.makeText(v.getContext(), "Going to streams page...", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(v.getContext(), ViewStreamsActivity.class);
+        startActivity(i);
     }
 
 }
