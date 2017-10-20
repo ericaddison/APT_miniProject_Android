@@ -5,7 +5,10 @@
     <string name="take_picture">Take Picture</string>
     <string name="use_picture">Use This Picture</string>
     <string name="title">Connexus!</string>
+
+    <!-- View All Streams Activity Strings  -->
     <string name="view_streams">View Streams</string>
+    <string name="nearby_streams">Nearby Streams</string>
 
     <!-- URL Request data -->
     <string name="url_scheme">http</string>

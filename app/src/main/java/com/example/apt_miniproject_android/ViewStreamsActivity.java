@@ -54,7 +54,7 @@ public class ViewStreamsActivity extends AppCompatActivity {
         });
 
         // set "nearby" click behavior
-        ImageView nearbyView = (ImageView) findViewById(R.id.nearby_image);
+        View nearbyView = (View) findViewById(R.id.nearby_image);
         nearbyView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -155,12 +155,7 @@ public class ViewStreamsActivity extends AppCompatActivity {
             if (width != parent.getMeasuredWidth())
                 setWidth(parent.getMeasuredWidth());
 
-            if (convertView==null) {
-                imageView = new myImageView(mContext);
-            } else {
-                imageView = (myImageView) convertView;
-            }
-
+            imageView = new myImageView(mContext);
             imageView.setLayoutParams(parms);
 
             if(!mThumbURLs.get(position).name.equals(""))

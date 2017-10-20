@@ -60,12 +60,23 @@
                     android:inputType="textPersonName"
                     android:text="Find Streams" />
 
-                <ImageView
+                <LinearLayout
                     android:id="@+id/nearby_image"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
-                    app:srcCompat="@mipmap/ic_launcher_round" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.75"
+                        app:srcCompat="@drawable/ic_globe" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text= "@string/nearby_streams"
+                        android:textAlignment="center"/>
+                    </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
