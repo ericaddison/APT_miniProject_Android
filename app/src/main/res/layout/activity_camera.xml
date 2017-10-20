@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.apt_miniproject_android.ViewStreamsActivity">
+
+    <!-- Image Grid -->
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.10">
+            <include layout="@layout/content_connexus_title"/>
+        </LinearLayout>
+
+        <TextureView
+            android:id="@+id/camera_texture"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:layout_above="@+id/btn_takepicture"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
+                android:id="@+id/button_take_picture"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@mipmap/ic_camera" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="@string/take_picture"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
+                android:id="@+id/button_use_picture"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@mipmap/ic_thumbup" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="@string/use_picture"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <fragment android:name="com.example.apt_miniproject_android.ViewStreamsButtonFragment"
+            android:id="@+id/view_streams"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05"
+            android:layout_width="match_parent"/>
+
+    </LinearLayout>
+
+    <!-- Bottom Section -->
+
+
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"/>
+
+
+</LinearLayout>

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">APT_miniProject_Android</string>
+    <string name="take_picture">Take Picture</string>
+    <string name="use_picture">Use This Picture</string>
+    <string name="title">Connexus!</string>
+    <string name="view_streams">View Streams</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
