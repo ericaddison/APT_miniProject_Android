@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">APT_miniProject_Android</string>
+
+
+    <!-- URL Request data -->
+    <string name="url_scheme">http</string>
+    <string name="url_authority">apt17-miniproj-whiteteam.appspot.com</string>
+    <string name="url_services">services</string>
+
+    <!-- URL services endpoints -->
+    <string name="url_service_search_tags">searchtags</string>
+    <string name="url_service_search_streams">searchstreams</string>
+    <string name="url_service_management">management</string>
+    <string name="url_service_view_stream">viewstream</string>
+    <string name="url_service_all_streams">streaminfo</string>
+    <string name="url_service_streaminfo">streaminfo</string>
+
+    <!-- URL Request param names -->
+    <string name="url_parm_user_id">userID</string>
+    <string name="url_parm_stream_id">streamID</string>
+    <string name="url_parm_image_range">imageRange</string>
+    <string name="url_parm_search_term">searchString</string>
 </resources>
