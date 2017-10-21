@@ -4,103 +4,102 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    style="@style/MainActivityTheme"
     tools:context="com.example.apt_miniproject_android.ViewStreamsActivity">
 
-    <!-- Image Grid -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.10"
+        android:layout_marginBottom="20dp">
+        <include layout="@layout/content_connexus_title"/>
+    </LinearLayout>
 
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.1" />
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:clipChildren="true"
+        android:numColumns="4"/>
+
+
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="0.8"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
         android:orientation="vertical">
-
-        <GridView
-            android:id="@+id/gridview"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.6"
-            android:gravity="center"
-            android:clipChildren="true"
-            android:numColumns="4"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Find Streams" />
+
+            <LinearLayout
+                android:id="@+id/nearby_image"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.75"
+                    app:srcCompat="@drawable/ic_globe" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text= "@string/nearby_streams"
+                    android:textAlignment="center"/>
+                </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_viewstreams_search"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="0.4"
+                android:text="Search" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_weight="0.6" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.4"
             android:orientation="vertical">
 
-            <LinearLayout
+            <Button
+                android:id="@+id/button_viewstreams_sub"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.3"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/editText"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.7"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="Find Streams" />
-
-                <ImageView
-                    android:id="@+id/nearby_image"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
-                    app:srcCompat="@mipmap/ic_launcher_round" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.3"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/button_viewstreams_search"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="0.4"
-                    android:text="Search" />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_weight="0.6" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.4"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/button_viewstreams_sub"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="My Subscribed Streams" />
-            </LinearLayout>
-
+                android:layout_height="wrap_content"
+                android:text="My Subscribed Streams" />
         </LinearLayout>
 
-
     </LinearLayout>
-
-    <!-- Bottom Section -->
-
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.1"/>
-
 
 </LinearLayout>
