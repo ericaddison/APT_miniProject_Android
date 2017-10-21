@@ -6,9 +6,12 @@ package com.example.apt_miniproject_android;
  */
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -33,9 +36,11 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
+import android.view.Display;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -112,6 +117,8 @@ public class CameraActivity extends AppCompatActivity {
     }
 
 
+    // the next two functions came from
+    // https://stackoverflow.com/questions/37434494/android-camera-2-preview-size-and-devices-aspect-ratio
     private void setAspectRatioTextureView(int ResolutionWidth , int ResolutionHeight )
     {
         if(ResolutionWidth > ResolutionHeight){
@@ -146,6 +153,8 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
             // Transform you image captured size according to the surface width and height
+            configureTransform(width, height);
+
         }
         @Override
         public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
@@ -155,6 +164,45 @@ public class CameraActivity extends AppCompatActivity {
         public void onSurfaceTextureUpdated(SurfaceTexture surface) {
         }
     };
+
+
+
+    // this method modified from one found at
+    // https://stackoverflow.com/questions/32834746/android-camera2-wrong-rotation
+
+    /**
+     * Configures the necessary {@link android.graphics.Matrix} transformation to `mTextureView`.
+     * This method should be called after the camera preview size is determined in
+     * setUpCameraOutputs and also the size of `mTextureView` is fixed.
+     *
+     * @param viewWidth  The width of `mTextureView`
+     * @param viewHeight The height of `mTextureView`
+     */
+    private void configureTransform(int viewWidth, int viewHeight) {
+
+        Activity activity = CameraActivity.this;
+        if (null == textureView || null == activity) {
+            return;
+        }
+        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+        Matrix matrix = new Matrix();
+        RectF viewRect = new RectF(0, 0, viewWidth, viewHeight);
+        RectF bufferRect = new RectF(0, 0, textureView.getHeight(), textureView.getWidth());
+        float centerX = viewRect.centerX();
+        float centerY = viewRect.centerY();
+        if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
+            bufferRect.offset(centerX - bufferRect.centerX()/4, centerY - bufferRect.centerY());
+            matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.CENTER);
+            float scale = Math.max((float) viewHeight / textureView.getHeight(),
+                                    (float) viewWidth / textureView.getWidth());
+            matrix.postScale(scale, scale, centerX, centerY);
+            matrix.postRotate(90 * (rotation - 2), centerX, centerY);
+        } else if (Surface.ROTATION_180 == rotation) {
+            matrix.postRotate(180, centerX, centerY);
+        }
+        textureView.setTransform(matrix);
+    }
+
 
 
     private final CameraDevice.StateCallback stateCallback = new CameraDevice.StateCallback() {
