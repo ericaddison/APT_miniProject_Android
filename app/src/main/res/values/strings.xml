@@ -6,6 +6,7 @@
     <string name="url_scheme">http</string>
     <string name="url_authority">apt17-miniproj-whiteteam.appspot.com</string>
     <string name="url_services">services</string>
+    <string name="google_maps_key">AIzaSyCStEwgkRB940lMpKTV6OzmMVkUmTb2g4U</string>
 
     <!-- URL services endpoints -->
     <string name="url_service_search_tags">searchtags</string>
@@ -20,4 +21,5 @@
     <string name="url_parm_stream_id">streamID</string>
     <string name="url_parm_image_range">imageRange</string>
     <string name="url_parm_search_term">searchString</string>
+    <string name="title_activity_find_nearby">Find Nearby Streams</string>
 </resources>
