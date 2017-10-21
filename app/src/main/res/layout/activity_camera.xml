@@ -71,10 +71,11 @@
     </LinearLayout>
 
     <fragment
-        android:id="@+id/view_streams"
+        android:id="@+id/view_stream_button_fragment"
         android:name="com.example.apt_miniproject_android.ViewStreamsButtonFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.05" />
+        android:layout_weight="0.05"
+        tools:layout="@layout/fragment_view_streams_button" />
 
 </LinearLayout>
