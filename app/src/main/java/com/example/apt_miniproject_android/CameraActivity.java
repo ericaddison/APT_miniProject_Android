@@ -29,6 +29,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
@@ -36,6 +37,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import java.io.File;
@@ -74,6 +76,8 @@ public class CameraActivity extends AppCompatActivity {
     private boolean mFlashSupported;
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
+    private int DSI_height;
+    private int DSI_width;
 
 
     @Override
@@ -101,8 +105,36 @@ public class CameraActivity extends AppCompatActivity {
             }
         });
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        DSI_height = displayMetrics.heightPixels;
+        DSI_width = displayMetrics.widthPixels;
+    }
+
+
+    private void setAspectRatioTextureView(int ResolutionWidth , int ResolutionHeight )
+    {
+        if(ResolutionWidth > ResolutionHeight){
+            int newWidth = DSI_width;
+            int newHeight = ((DSI_width * ResolutionWidth)/ResolutionHeight);
+            updateTextureViewSize(newWidth,newHeight);
+
+        }else {
+            int newWidth = DSI_width;
+            int newHeight = ((DSI_width * ResolutionHeight)/ResolutionWidth);
+            updateTextureViewSize(newWidth,newHeight);
+        }
 
     }
+
+    private void updateTextureViewSize(int viewWidth, int viewHeight) {
+        Log.d(TAG, "TextureView Width : " + viewWidth + " TextureView Height : " + viewHeight);
+        textureView.setLayoutParams(new FrameLayout.LayoutParams(viewWidth, viewHeight));
+    }
+
+
+
+
 
 
     TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {
@@ -314,6 +346,8 @@ public class CameraActivity extends AppCompatActivity {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+
+        setAspectRatioTextureView(imageDimension.getHeight(),imageDimension.getWidth());
         Log.e(TAG, "openCamera X");
     }
 

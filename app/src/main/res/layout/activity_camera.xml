@@ -16,12 +16,19 @@
         <include layout="@layout/content_connexus_title" />
     </LinearLayout>
 
-    <TextureView
-        android:id="@+id/camera_texture"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_above="@+id/btn_takepicture"
-        android:layout_weight="0.6" />
+        android:layout_weight="0.6">
+
+        <TextureView
+            android:id="@+id/camera_texture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btn_takepicture" />
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
