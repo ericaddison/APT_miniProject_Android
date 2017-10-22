@@ -19,14 +19,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewStreamsActivity"></activity>
-        <activity android:name=".CameraActivity"></activity>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity
-            android:name=".FindNearbyActivity"
+        <activity android:name=".ViewStreamsActivity"></activity>
+        <activity android:name=".CameraActivity"></activity>
+        <activity android:name=".FindNearbyActivity"
             android:label="@string/title_activity_find_nearby">
+        <activity android:name=".UploadActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
