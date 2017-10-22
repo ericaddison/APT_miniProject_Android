@@ -147,6 +147,7 @@ public class ServerCommunicator {
                         callbackAction.handleResponse(response);
                     }
                 }, new Response.ErrorListener() {
+
             @Override
             public void onErrorResponse(VolleyError error) {
                 errorAction.handleError(error);
