@@ -123,8 +123,7 @@ public class FindNearbyActivity extends AppCompatActivity implements
     }
 
     private void handleNewLocation(Location location) {
-        Log.d(TAG, "handleNewLocation");
-        Log.d(TAG, location.toString());
+        Log.d(TAG, "handleNewLocation: " + location.toString());
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);

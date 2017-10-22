@@ -26,10 +26,12 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".FindNearbyActivity"
-            android:label="@string/title_activity_find_nearby">
 
+        <activity android:name=".ViewStreamsActivity"></activity>
+        <activity android:name=".CameraActivity"></activity>
+        <activity android:name=".FindNearbyActivity"
+            android:label="@string/title_activity_find_nearby"></activity>
+        <activity android:name=".UploadActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
