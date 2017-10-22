@@ -30,18 +30,13 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
-import android.view.Display;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -56,7 +51,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class CameraActivity extends AppCompatActivity {
+public class CameraActivity extends LocationActivity {
 
     private static final String TAG = "CameraActivity";
     private View takePictureButton;
@@ -114,6 +109,7 @@ public class CameraActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         DSI_height = displayMetrics.heightPixels;
         DSI_width = displayMetrics.widthPixels;
+
     }
 
 
@@ -323,6 +319,7 @@ public class CameraActivity extends AppCompatActivity {
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
                     Toast.makeText(CameraActivity.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CameraActivity.this, "loc: " + getLastLocation().getLatitude() + ", " + getLastLocation().getLongitude(), Toast.LENGTH_SHORT).show();
                     createCameraPreview();
                 }
             };

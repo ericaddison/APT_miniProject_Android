@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- Network permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -23,15 +25,17 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
         <activity android:name=".ViewStreamsActivity"></activity>
-        <activity android:name=".CameraActivity"></activity>
-        <activity android:name=".FindNearbyActivity"
-            android:label="@string/title_activity_find_nearby">
-        <activity android:name=".UploadActivity">
+        <activity android:name=".CameraActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".FindNearbyActivity"
+            android:label="@string/title_activity_find_nearby">
+        </activity>
+        <activity android:name=".UploadActivity">
         </activity>
         <activity android:name=".TestActivity"></activity>
     </application>
