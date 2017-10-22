@@ -1,16 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:weightSum="1">
 
     <TextView
         android:id="@+id/locTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.15"
-        android:editable="false"
+        android:layout_height="4dp"
+        android:layout_weight="0.05"
         android:inputType="none"
         android:text="Current Location"
         android:visibility="visible" />
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="373dp"
+        android:layout_height="281dp"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/nearbyTextView"
+        android:layout_width="241dp"
+        android:layout_height="62dp"
+        android:layout_weight="0.09"
+        android:text="Nearby Pictures" />
+
+    <Button
+        android:id="@+id/moreButton"
+        android:layout_width="146dp"
+        android:layout_height="58dp"
+        android:layout_weight="0.08"
+        android:text="More" />
+
+    <Button
+        android:id="@+id/viewAllStreamsButton"
+        android:layout_width="242dp"
+        android:layout_height="wrap_content"
+        android:onClick="viewAllStreamsOnClick"
+        android:text="View All Streams" />
+
 </LinearLayout>

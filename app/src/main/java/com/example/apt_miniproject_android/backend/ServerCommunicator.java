@@ -54,7 +54,7 @@ public class ServerCommunicator {
 
 
     /**
-     * Request the "Mangement" data from the server
+     * Request the "Management" data from the server
      */
     public void requestManagementData(String userID, ServerResponseAction callbackAction){
         Uri.Builder uri = getBaseServicesUri();
@@ -115,6 +115,16 @@ public class ServerCommunicator {
         doRequest(myUrl, callbackAction);
     }
 
+    /**
+     * Request "StreamItemInfo" for all streams from the server
+     */
+    public void requestAllStreamItemInfoData(ServerResponseAction callbackAction){
+
+        Uri.Builder uri = getBaseServicesUri();
+        uri.appendPath(mContext.getString(R.string.url_service_streamiteminfo));
+        String myUrl = uri.build().toString();
+        doRequest(myUrl, callbackAction);
+    }
 
     private Uri.Builder getBaseServicesUri(){
         Uri.Builder builder = new Uri.Builder();
