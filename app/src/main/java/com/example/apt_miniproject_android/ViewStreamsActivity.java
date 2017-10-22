@@ -2,10 +2,8 @@ package com.example.apt_miniproject_android;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -23,7 +21,6 @@ import com.example.apt_miniproject_android.backend.ServerResponseAction;
 import com.example.apt_miniproject_android.model.StreamInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -32,7 +29,7 @@ import java.util.List;
 public class ViewStreamsActivity extends AppCompatActivity {
 
     private GridView gridview;
-    private ImageURLAdapter adapter;
+    private StreamCoverImageAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +40,17 @@ public class ViewStreamsActivity extends AppCompatActivity {
 
         // set gridview adapter and click behavior
         gridview = (GridView) findViewById(R.id.gridview);
-        adapter = new ImageURLAdapter(this);
+        adapter = new StreamCoverImageAdapter(this);
         gridview.setAdapter(adapter);
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Toast.makeText(ViewStreamsActivity.this, "You clicked on image " + position,
+                Toast.makeText(ViewStreamsActivity.this, "Stream " + adapter.getItem(position).getId(),
                         Toast.LENGTH_SHORT).show();
+                //Intent i = new Intent(v.getContext(), ViewStreamActivity.class);
+                //i.putExtra(adapter.getItem(position).getId());
+                //startActivity(i);
             }
         });
 
@@ -102,31 +102,22 @@ public class ViewStreamsActivity extends AppCompatActivity {
                 Gson gson = new GsonBuilder().create();
                 StreamInfo[] streams = gson.fromJson(response, StreamInfo[].class);
                 for(StreamInfo stream : streams)
-                    adapter.addThumbURL(new ImageURL(stream.getCoverImageURL(), stream.getName()));
+                    adapter.addStreamInfo(stream);
                 adapter.notifyDataSetChanged();
             }
         });
     }
 
-    public class ImageURL{
-        public String url;
-        public String name;
 
-        public ImageURL(String url, String name) {
-            this.url = url;
-            this.name = name;
-        }
-    }
-
-    public class ImageURLAdapter extends BaseAdapter {
+    public class StreamCoverImageAdapter extends BaseAdapter {
         private Context mContext;
-        private List<ImageURL> mThumbURLs;
+        private List<StreamInfo> mstreamInfos;
         private int width;
         private GridView.LayoutParams parms;
 
-        public ImageURLAdapter(Context c) {
+        public StreamCoverImageAdapter(Context c) {
             mContext = c;
-            mThumbURLs = new ArrayList<>();
+            mstreamInfos = new ArrayList<>();
         }
 
         private void setWidth(int parent_width) {
@@ -140,11 +131,11 @@ public class ViewStreamsActivity extends AppCompatActivity {
 
 
         public int getCount() {
-            return mThumbURLs.size();
+            return mstreamInfos.size();
         }
 
-        public Object getItem(int position) {
-            return null;
+        public StreamInfo getItem(int position) {
+            return mstreamInfos.get(position);
         }
 
         public long getItemId(int position) {
@@ -161,14 +152,14 @@ public class ViewStreamsActivity extends AppCompatActivity {
             imageView = new myImageView(mContext);
             imageView.setLayoutParams(parms);
 
-            if(!mThumbURLs.get(position).name.equals(""))
-                imageView.setImageURL(mThumbURLs.get(position), width);
+            if(!mstreamInfos.get(position).getName().equals(""))
+                imageView.setStreamInfo(mstreamInfos.get(position), width);
 
             return imageView;
         }
 
-        public void addThumbURL(ImageURL url){
-            mThumbURLs.add(url);
+        public void addStreamInfo(StreamInfo info){
+            mstreamInfos.add(info);
         }
 
         private class myImageView extends LinearLayout {
@@ -181,7 +172,7 @@ public class ViewStreamsActivity extends AppCompatActivity {
                 this.setOrientation(LinearLayout.VERTICAL);
             }
 
-            public void setImageURL(final ImageURL url, int width){
+            public void setStreamInfo(final StreamInfo streamInfo, int width){
 
                 imageView = new ImageView(mContext);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -189,13 +180,13 @@ public class ViewStreamsActivity extends AppCompatActivity {
 
                 textView = new TextView(mContext);
 
-                if(!url.url.equals(""))
+                if(!streamInfo.getCoverImageURL().equals(""))
                     Picasso.with(mContext)
-                            .load(url.url)
+                            .load(streamInfo.getCoverImageURL())
                             .placeholder(android.R.drawable.picture_frame)
                             .into(imageView);
 
-                textView.setText(url.name);
+                textView.setText(streamInfo.getName());
 
                 this.addView(imageView);
                 this.addView(textView);
