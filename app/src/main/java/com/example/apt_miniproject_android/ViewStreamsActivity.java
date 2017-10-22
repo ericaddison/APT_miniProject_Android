@@ -1,6 +1,7 @@
 package com.example.apt_miniproject_android;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -61,6 +62,8 @@ public class ViewStreamsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(ViewStreamsActivity.this, "Go to nearby streams page...",
                         Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(view.getContext(), FindNearbyActivity.class);
+                startActivity(i);
             }
         });
 
