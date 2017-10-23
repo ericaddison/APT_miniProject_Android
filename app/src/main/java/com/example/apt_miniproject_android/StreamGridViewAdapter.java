@@ -13,7 +13,6 @@ import com.example.apt_miniproject_android.model.StreamInfo;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -22,13 +21,14 @@ import java.util.List;
 
 public class StreamGridViewAdapter extends BaseAdapter {
     private Context mContext;
-    private HashMap<Long, StreamInfo> mstreamInfos;
+    private List<StreamInfo> mstreamInfos;
     private int width;
     private GridView.LayoutParams parms;
 
     public StreamGridViewAdapter(Context c) {
         mContext = c;
-        mstreamInfos = new HashMap<>();
+        mstreamInfos = new ArrayList<>();
+        mstreamInfos.add(StreamInfo.TestStreamInfo());
     }
 
     private void setWidth(View parent) {
@@ -61,7 +61,7 @@ public class StreamGridViewAdapter extends BaseAdapter {
 
 
     public long getItemId(int position) {
-        return 0;
+        return mstreamInfos.get(position).getId();
     }
 
 
@@ -69,8 +69,7 @@ public class StreamGridViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         myImageView imageView;
 
-        if (width != parent.getMeasuredWidth())
-            setWidth(parent);
+        setWidth(parent);
 
         imageView = new myImageView(mContext);
         imageView.setLayoutParams(parms);
@@ -83,7 +82,7 @@ public class StreamGridViewAdapter extends BaseAdapter {
 
 
     public void addStreamInfo(StreamInfo info){
-        mstreamInfos.put(info.getId(), info);
+        mstreamInfos.add(info);
     }
 
 
@@ -105,6 +104,7 @@ public class StreamGridViewAdapter extends BaseAdapter {
             imageView.setLayoutParams(new GridView.LayoutParams(width, width));
 
             textView = new TextView(mContext);
+            textView.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
 
             if(!streamInfo.getCoverImageURL().equals(""))
                 Picasso.with(mContext)

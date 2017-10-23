@@ -52,10 +52,10 @@ public class ViewStreamsActivity extends AppCompatActivity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Toast.makeText(ViewStreamsActivity.this, "Stream " + adapter.getItem(position).getId(),
+                Toast.makeText(ViewStreamsActivity.this, "Stream " + id,
                         Toast.LENGTH_SHORT).show();
                 //Intent i = new Intent(v.getContext(), ViewStreamActivity.class);
-                //i.putExtra(adapter.getItem(position).getId());
+                //i.putExtra(id);
                 //startActivity(i);
             }
         });
@@ -81,7 +81,6 @@ public class ViewStreamsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(ViewStreamsActivity.this, "Search for streams...",
                         Toast.LENGTH_SHORT).show();
-                showSubscribedStreams();
             }
         });
 
