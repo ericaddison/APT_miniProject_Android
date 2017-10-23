@@ -28,12 +28,11 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".ViewStreamsActivity" />
-        <activity android:name=".CameraActivity">
-        </activity>
+        <activity android:name=".CameraActivity" />
         <activity
             android:name=".FindNearbyActivity"
-            android:label="@string/title_activity_find_nearby"></activity>
-        <activity android:name=".UploadActivity"></activity>
+            android:label="@string/title_activity_find_nearby" /
+        <activity android:name=".UploadActivity" />
         <activity android:name=".TestActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
