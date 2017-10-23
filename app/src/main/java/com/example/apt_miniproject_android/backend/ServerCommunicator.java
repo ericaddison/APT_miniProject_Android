@@ -126,6 +126,18 @@ public class ServerCommunicator {
         doRequest(myUrl, callbackAction);
     }
 
+    /**
+     * Request "StreamItemInfo" for one stream from the server
+     */
+    public void requestStreamItemInfoData(long streamID, ServerResponseAction callbackAction){
+
+        Uri.Builder uri = getBaseServicesUri();
+        uri.appendPath(mContext.getString(R.string.url_service_streamiteminfo));
+        uri.appendQueryParameter("streamid", Long.toString(streamID));
+        String myUrl = uri.build().toString();
+        doRequest(myUrl, callbackAction);
+    }
+
     private Uri.Builder getBaseServicesUri(){
         Uri.Builder builder = new Uri.Builder();
         return builder.scheme(mContext.getString(R.string.url_scheme))

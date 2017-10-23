@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1">
@@ -7,7 +8,7 @@
     <TextView
         android:id="@+id/locTextView"
         android:layout_width="match_parent"
-        android:layout_height="4dp"
+        android:layout_height="20dp"
         android:layout_weight="0.05"
         android:inputType="none"
         android:text="Current Location"
@@ -16,15 +17,21 @@
     <GridView
         android:id="@+id/gridview"
         android:layout_width="373dp"
-        android:layout_height="281dp"
+        android:layout_height="289dp"
+        android:numColumns="4"
         android:visibility="visible" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_weight="0.05" />
 
     <TextView
         android:id="@+id/nearbyTextView"
-        android:layout_width="241dp"
-        android:layout_height="62dp"
-        android:layout_weight="0.09"
-        android:text="Nearby Pictures" />
+        android:layout_width="266dp"
+        android:layout_height="44dp"
+        android:text="Nearby Pictures"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
     <Button
         android:id="@+id/moreButton"
