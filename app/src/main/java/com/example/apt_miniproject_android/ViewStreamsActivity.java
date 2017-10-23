@@ -3,11 +3,14 @@ package com.example.apt_miniproject_android;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.apt_miniproject_android.backend.ServerCommunicator;
@@ -81,6 +84,18 @@ public class ViewStreamsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(ViewStreamsActivity.this, "Search for streams...",
                         Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // set search text field behavior
+        final EditText searchText = (EditText) findViewById(R.id.search_text);
+        searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                Toast.makeText(ViewStreamsActivity.this, "Search for streams... " + textView.getText(),
+                        Toast.LENGTH_SHORT).show();
+                // go to search page
+                return true;
             }
         });
 
