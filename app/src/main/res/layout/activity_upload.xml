@@ -23,7 +23,23 @@
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1">
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/uploadPreview"
+            android:layout_width="87dp"
+            android:layout_height="94dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/uploadButton"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/uploadEditText"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@android:drawable/ic_menu_report_image"
+            app:layout_constraintHorizontal_bias="0.501" />
 
         <EditText
             android:id="@+id/streamName"
@@ -40,16 +56,17 @@
             app:layout_constraintRight_toRightOf="parent" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/uploadButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="25dp"
+            android:onClick="uploadImage"
             android:text="Upload"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/uploadEditText" />
+            android:layout_marginBottom="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/streamName" />
 
         <EditText
             android:id="@+id/uploadEditText"
@@ -65,24 +82,26 @@
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/uploadFromCameraButton" />
+            app:layout_constraintTop_toBottomOf="@+id/useCameraButton" />
 
         <Button
-            android:id="@+id/uploadFromCameraButton"
+            android:id="@+id/useCameraButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
+            android:onClick="useCamera"
             android:text="Use camera"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/uploadFromLibraryButton" />
+            app:layout_constraintTop_toBottomOf="@+id/chooseFromLibraryButton" />
 
         <Button
-            android:id="@+id/uploadFromLibraryButton"
+            android:id="@+id/chooseFromLibraryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="chooseFromLibrary"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="16dp"
