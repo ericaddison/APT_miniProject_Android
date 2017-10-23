@@ -45,17 +45,25 @@ public class StreamGridViewAdapter extends BaseAdapter {
     }
 
 
+    public void clear(){
+        mstreamInfos.clear();
+    }
+
+
     public int getCount() {
         return mstreamInfos.size();
     }
+
 
     public StreamInfo getItem(int position) {
         return mstreamInfos.get(position);
     }
 
+
     public long getItemId(int position) {
         return 0;
     }
+
 
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -73,9 +81,11 @@ public class StreamGridViewAdapter extends BaseAdapter {
         return imageView;
     }
 
+
     public void addStreamInfo(StreamInfo info){
         mstreamInfos.put(info.getId(), info);
     }
+
 
     private class myImageView extends LinearLayout {
 
@@ -86,6 +96,7 @@ public class StreamGridViewAdapter extends BaseAdapter {
             super(context);
             this.setOrientation(LinearLayout.VERTICAL);
         }
+
 
         public void setStreamInfo(final StreamInfo streamInfo, int width){
 

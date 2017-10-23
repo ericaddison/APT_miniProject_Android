@@ -20,6 +20,10 @@ public class ViewStreamsActivity extends AppCompatActivity {
 
     private GridView gridview;
     private StreamGridViewAdapter adapter;
+    private ServerCommunicator comm;
+    private ServerResponseAction fillGridServerAction;
+    private boolean showingAll;
+    private Button subButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,18 @@ public class ViewStreamsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_streams);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        comm = new ServerCommunicator(findViewById(android.R.id.content));
+        fillGridServerAction = new ServerResponseAction() {
+            @Override
+            public void handleResponse(String response) {
+                Gson gson = new GsonBuilder().create();
+                StreamInfo[] streams = gson.fromJson(response, StreamInfo[].class);
+                for (StreamInfo stream : streams)
+                    adapter.addStreamInfo(stream);
+                adapter.notifyDataSetChanged();
+            }
+        };
 
         // set gridview adapter and click behavior
         gridview = (GridView) findViewById(R.id.gridview);
@@ -65,17 +81,23 @@ public class ViewStreamsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(ViewStreamsActivity.this, "Search for streams...",
                         Toast.LENGTH_SHORT).show();
+                showSubscribedStreams();
             }
         });
 
         // set subscribed button behavior
-        Button subButton = (Button) findViewById(R.id.button_viewstreams_sub);
+        subButton = (Button) findViewById(R.id.button_viewstreams_sub);
         subButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(ViewStreamsActivity.this, "Go to subscribed stream page...",
-                        Toast.LENGTH_SHORT).show();
+                if(showingAll) {
+                    showSubscribedStreams();
+                    subButton.setText(getString(R.string.all_streams_button_text));
+                } else {
+                    showAllStreams();
+                    subButton.setText(getString(R.string.sub_streams_button_text));
+                }
             }
         });
 
@@ -84,17 +106,21 @@ public class ViewStreamsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        showAllStreams();
+    }
 
-        ServerCommunicator comm = new ServerCommunicator(findViewById(android.R.id.content));
-        comm.requestAllStreamInfoData(new ServerResponseAction() {
-            @Override
-            public void handleResponse(String response) {
-                Gson gson = new GsonBuilder().create();
-                StreamInfo[] streams = gson.fromJson(response, StreamInfo[].class);
-                for(StreamInfo stream : streams)
-                    adapter.addStreamInfo(stream);
-                adapter.notifyDataSetChanged();
-            }
-        });
+
+    private void showSubscribedStreams(){
+        adapter.clear();
+        //comm.requestSubscribedStreamsInfoData(fillGridServerAction);
+        showingAll = false;
+    }
+
+
+    private void showAllStreams(){
+        comm.requestAllStreamInfoData(fillGridServerAction);
+        showingAll = true;
     }
 }
+
+

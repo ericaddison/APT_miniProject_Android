@@ -9,6 +9,8 @@
     <!-- View All Streams Activity Strings  -->
     <string name="view_streams">View Streams</string>
     <string name="nearby_streams">Nearby Streams</string>
+    <string name="sub_streams_button_text">My Subscribed Streams</string>
+    <string name="all_streams_button_text">All Streams</string>
 
     <!-- URL Request data -->
     <string name="url_scheme">http</string>
