@@ -28,7 +28,6 @@ public class StreamGridViewAdapter extends BaseAdapter {
     public StreamGridViewAdapter(Context c) {
         mContext = c;
         mstreamInfos = new ArrayList<>();
-        mstreamInfos.add(StreamInfo.TestStreamInfo());
     }
 
     private void setWidth(View parent) {

@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.google.android.gms.maps.model.LatLng;
 
 
-public class FindNearbyActivityAbstract extends AbstractLocationActivity {
+public class FindNearbyActivity extends AbstractLocationActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
