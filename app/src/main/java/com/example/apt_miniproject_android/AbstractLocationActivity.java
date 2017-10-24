@@ -20,33 +20,29 @@ import com.google.android.gms.location.LocationServices;
  * Created by eric on 10/22/17.
  */
 
-public class LocationActivity extends AppCompatActivity implements
+abstract public class AbstractLocationActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
     private GoogleApiClient mGoogleApiClient;
-    public static final String TAG = LocationActivity.class.getSimpleName();
+    public static final String TAG = AbstractLocationActivity.class.getSimpleName();
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private LocationRequest mLocationRequest;
     private Location lastLocation;
     public final static int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-
+    private int mLayoutID;
 
     public Location getLastLocation(){
         return lastLocation;
     }
 
     // override this as a handle-hook
-    protected void handleNewLocation(Location location){
+    protected void handleNewLocation(Location location){}
 
-    }
-
-
-
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_nearby);
 
         // Create the LocationRequest object
         mLocationRequest = LocationRequest.create()

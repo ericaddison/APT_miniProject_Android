@@ -5,10 +5,6 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,58 +27,12 @@ import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+public class FindNearbyActivityAbstract extends AbstractLocationActivity {
 
-public class FindNearbyActivity extends AppCompatActivity implements
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
-
-    private GoogleApiClient mGoogleApiClient;
-    public static final String TAG = FindNearbyActivity.class.getSimpleName();
-    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    private LocationRequest mLocationRequest;
-    public final static int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-
-
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_nearby);
-
-        Button viewAllStreamsButton = (Button) findViewById(R.id.viewAllStreamsButton);
-        viewAllStreamsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(view.getContext(), ViewStreamsActivity.class);
-                startActivity(i);
-            }
-        });
-
-
-        // Create the LocationRequest object
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
-                .setFastestInterval(1 * 1000); // 1 second, in milliseconds
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-
-        //Check for permissions to use GPS
-        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
-
-        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "ACCESS_FINE_LOCATION permission granted");
-
-        }
-        else{
-            Log.d(TAG, "ACCESS_FINE_LOCATION permissions denied automatically");
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-        }
     }
 
     @Override
