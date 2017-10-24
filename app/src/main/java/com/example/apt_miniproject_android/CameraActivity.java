@@ -51,7 +51,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class CameraActivity extends LocationActivity {
+public class CameraActivity extends AbstractLocationActivity {
 
     private static final String TAG = "CameraActivity";
     private View takePictureButton;
@@ -78,7 +78,6 @@ public class CameraActivity extends LocationActivity {
     private HandlerThread mBackgroundThread;
     private int DSI_height;
     private int DSI_width;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

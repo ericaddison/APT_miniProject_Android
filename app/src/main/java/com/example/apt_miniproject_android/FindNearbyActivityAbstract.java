@@ -1,13 +1,20 @@
 package com.example.apt_miniproject_android;
 
 import android.location.Location;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 
 
-public class FindNearbyActivity extends LocationActivity {
+public class FindNearbyActivityAbstract extends AbstractLocationActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_find_nearby);
+    }
 
     @Override
     protected void handleNewLocation(Location location) {
