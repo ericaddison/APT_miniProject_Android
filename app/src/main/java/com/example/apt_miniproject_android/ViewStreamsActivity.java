@@ -52,8 +52,7 @@ public class ViewStreamsActivity extends AppCompatActivity {
                 Toast.makeText(ViewStreamsActivity.this, "You clicked on image " + position,
                         Toast.LENGTH_SHORT).show();
 
-                View view = findViewById(android.R.id.content);
-                Intent i = new Intent(view.getContext(), ViewAStreamActivity.class);
+                Intent i = new Intent(v.getContext(), ViewAStreamActivity.class);
 
                 i.putExtra("streamID", id);
                 startActivity(i);
@@ -117,7 +116,6 @@ public class ViewStreamsActivity extends AppCompatActivity {
     public class ImageURL{
         public String url;
         public String name;
-        public Long id;
 
         public ImageURL(String url, String name) {
             this.url = url;

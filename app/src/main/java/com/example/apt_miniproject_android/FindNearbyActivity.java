@@ -173,12 +173,18 @@ public class FindNearbyActivity extends AppCompatActivity implements
                 Gson gson = new GsonBuilder().create();
                 StreamItemInfo[] items = gson.fromJson(response, StreamItemInfo[].class);
 
+                //Location currentLocation
+                for(StreamItemInfo item : items){
+                    //Location loc2 = new Location("");
+                    //loc2.setLatitude(lat2);
+                    //loc2.setLongitude(lon2);
 
-                //Location loc2 = new Location("");
-                //loc2.setLatitude(lat2);
-                //loc2.setLongitude(lon2);
+                    //float distanceInMeters = loc1.distanceTo(loc2);
 
-                //float distanceInMeters = loc1.distanceTo(loc2);
+
+                }
+
+
 
             }
         };
