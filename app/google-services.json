@@ -13,16 +13,16 @@
       },
       "oauth_client": [
         {
-          "client_id": "567910868038-rj3rdk31k9mbcf4ftder0rhfqr1vrld4.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "567910868038-sheqphh9sfisre2a1p3jtv5hu7a5kdbe.apps.googleusercontent.com",
+          "client_id": "567910868038-f4sgi8vvdpa0v0a13bubu2ulg045cm30.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.apt.whiteteam.playground",
             "certificate_hash": "ea20eeb23121d0d585fb466d56911aedc76dffe1"
           }
+        },
+        {
+          "client_id": "567910868038-rj3rdk31k9mbcf4ftder0rhfqr1vrld4.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
@@ -52,16 +52,16 @@
       },
       "oauth_client": [
         {
-          "client_id": "567910868038-rj3rdk31k9mbcf4ftder0rhfqr1vrld4.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "567910868038-rob5261f21fn30u9dtum3hpa1iueg1p4.apps.googleusercontent.com",
+          "client_id": "567910868038-ovs4qsgvg9r9u40bj2tjuo0atn04l7gu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.apt.whiteteam.miniproj",
             "certificate_hash": "c621536416b702a913b8c5fd65d6d1b8b8b6ebb3"
           }
+        },
+        {
+          "client_id": "567910868038-rj3rdk31k9mbcf4ftder0rhfqr1vrld4.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
@@ -91,7 +91,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "567910868038-6d41k6mi9o0j43jp4af3rdjsqmqh59cp.apps.googleusercontent.com",
+          "client_id": "567910868038-217q6p1k4n5haobr3gf7mnsat720hpdj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.apt_miniproject_android",
+            "certificate_hash": "ea20eeb23121d0d585fb466d56911aedc76dffe1"
+          }
+        },
+        {
+          "client_id": "567910868038-fbc3im1inbom19hdnqo5u7ghiahr68cn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.apt_miniproject_android",
@@ -101,14 +109,6 @@
         {
           "client_id": "567910868038-rj3rdk31k9mbcf4ftder0rhfqr1vrld4.apps.googleusercontent.com",
           "client_type": 3
-        },
-        {
-          "client_id": "567910868038-cmb1ces0165uuhd7crp4ibfub2efj14t.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.apt_miniproject_android",
-            "certificate_hash": "ea20eeb23121d0d585fb466d56911aedc76dffe1"
-          }
         }
       ],
       "api_key": [

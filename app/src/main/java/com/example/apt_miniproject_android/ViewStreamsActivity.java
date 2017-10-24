@@ -3,6 +3,7 @@ package com.example.apt_miniproject_android;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.example.apt_miniproject_android.backend.ServerCommunicator;
 import com.example.apt_miniproject_android.backend.ServerResponseAction;
 import com.example.apt_miniproject_android.model.StreamInfo;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -27,6 +29,7 @@ public class ViewStreamsActivity extends AppCompatActivity {
     private ServerResponseAction fillGridServerAction;
     private boolean showingAll;
     private Button subButton;
+    private GoogleSignInAccount acct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +108,7 @@ public class ViewStreamsActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                if(showingAll) {
+                if(showingAll && acct!=null) {
                     showSubscribedStreams();
                     subButton.setText(getString(R.string.all_streams_button_text));
                 } else {
@@ -114,6 +117,12 @@ public class ViewStreamsActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        // check for user account
+        acct = (GoogleSignInAccount) getIntent().getParcelableExtra(getString(R.string.user_account));
+        if(acct == null)
+            subButton.setEnabled(false);
 
     }
 
@@ -126,12 +135,13 @@ public class ViewStreamsActivity extends AppCompatActivity {
 
     private void showSubscribedStreams(){
         adapter.clear();
-        //comm.requestSubscribedStreamsInfoData(fillGridServerAction);
+        comm.requestSubscribedStreamsInfoData(acct.getIdToken(), fillGridServerAction);
         showingAll = false;
     }
 
 
     private void showAllStreams(){
+        adapter.clear();
         comm.requestAllStreamInfoData(fillGridServerAction);
         showingAll = true;
     }

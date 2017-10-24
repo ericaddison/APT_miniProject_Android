@@ -104,6 +104,15 @@ public class ServerCommunicator {
     }
 
 
+    public void requestSubscribedStreamsInfoData(String authToken, ServerResponseAction callbackAction){
+        Uri.Builder uri = getBaseServicesUri();
+        uri.appendPath(mContext.getString(R.string.url_service_subscribed_streams))
+                .appendQueryParameter(mContext.getString(R.string.url_auth_token_term), authToken);
+        String myUrl = uri.build().toString();
+        doRequest(myUrl, callbackAction);
+    }
+
+
     /**
      * Request "StreamInfo" for all streams from the server
      */

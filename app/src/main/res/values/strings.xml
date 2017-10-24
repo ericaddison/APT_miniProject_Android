@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">APT_miniProject_Android</string>
 
+    <!-- User login strings  -->
+    <string name="user_account">userAccount</string>
+
     <!-- Camera Activity Strings  -->
     <string name="take_picture">Take Picture</string>
     <string name="use_picture">Use This Picture</string>
@@ -15,6 +18,7 @@
     <!-- URL Request data -->
     <string name="url_scheme">http</string>
     <string name="url_authority">apt17-miniproj-whiteteam.appspot.com</string>
+    <!--string name="url_authority">10.0.0.11:8080</string-->
     <string name="url_services">services</string>
     <string name="google_maps_key">AIzaSyCStEwgkRB940lMpKTV6OzmMVkUmTb2g4U</string>
     <string name="oauth_client_id">567910868038-rj3rdk31k9mbcf4ftder0rhfqr1vrld4.apps.googleusercontent.com</string>
@@ -26,12 +30,14 @@
     <string name="url_service_view_stream">viewstream</string>
     <string name="url_service_all_streams">streaminfo</string>
     <string name="url_service_streaminfo">streaminfo</string>
+    <string name="url_service_subscribed_streams">subscribedstreams</string>
 
     <!-- URL Request param names -->
     <string name="url_parm_user_id">userID</string>
     <string name="url_parm_stream_id">streamID</string>
     <string name="url_parm_image_range">imageRange</string>
     <string name="url_parm_search_term">searchString</string>
+    <string name="url_auth_token_term">authToken</string>
     <string name="title_activity_find_nearby">Find Nearby Streams</string>
     <string name="default_login_text">Not logged in</string>
 </resources>

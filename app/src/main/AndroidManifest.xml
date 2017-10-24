@@ -31,7 +31,7 @@
         <activity android:name=".CameraActivity" />
         <activity
             android:name=".FindNearbyActivity"
-            android:label="@string/title_activity_find_nearby" /
+            android:label="@string/title_activity_find_nearby" />
         <activity android:name=".UploadActivity" />
         <activity android:name=".TestActivity" />
         <activity android:name=".LoginActivity">
