@@ -2,18 +2,13 @@ package com.example.apt_miniproject_android;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,17 +19,10 @@ import com.example.apt_miniproject_android.backend.DefaultServerErrorAction;
 import com.example.apt_miniproject_android.backend.ServerCommunicator;
 import com.example.apt_miniproject_android.backend.ServerErrorAction;
 import com.example.apt_miniproject_android.backend.ServerResponseAction;
-import com.example.apt_miniproject_android.model.StreamInfo;
 import com.example.apt_miniproject_android.model.StreamItemInfo;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -43,7 +31,7 @@ import java.util.List;
 public class FindNearbyActivity extends AbstractLocationActivity {
 
     private GridView gridview;
-    private FindNearbyActivityAbstract.ImageURLAdapter adapter;
+    private FindNearbyActivity.ImageURLAdapter adapter;
 
 
     public void viewAllStreamsOnClick(View view){
@@ -60,7 +48,7 @@ public class FindNearbyActivity extends AbstractLocationActivity {
 
         // set gridview adapter and click behavior
         gridview = (GridView) findViewById(R.id.gridview);
-        adapter = new FindNearbyActivityAbstract.ImageURLAdapter(this);
+        adapter = new FindNearbyActivity.ImageURLAdapter(this);
         gridview.setAdapter(adapter);
     }
 
@@ -104,22 +92,26 @@ public class FindNearbyActivity extends AbstractLocationActivity {
                 }
 
                 for(StreamItemInfo item : itemsWithLocation){
-                    Log.d("Find distance item: ", item.getId() + " lat:" + item.getLat() + " lng:" + item.getLng());
-                    Location itemLoc = new Location("");
-                    itemLoc.setLatitude((long)Double.parseDouble(item.getLat()));
-                    itemLoc.setLongitude((long)Double.parseDouble(item.getLng()));
-                    float distanceInMeters = currentLocation.distanceTo(itemLoc);
-                    String distance ="";
-                    if(distanceInMeters < 10000) {
-                        distance = Double.toString(Math.round(distanceInMeters*1000.0)/1000.0) + " M";
-                    }
-                    else{
-                        double distanceInKilometers = distanceInMeters / 1000.0000;
-                        distance = Double.toString(Math.round(distanceInKilometers*1000.0)/1000.0) + " KM";
-                    }
-                    Log.d("Distance: ", distance);
+                    try {
+                        Log.d("Find distance item: ", item.getId() + " lat:" + item.getLat() + " lng:" + item.getLng());
+                        Location itemLoc = new Location("");
+                        itemLoc.setLatitude((long) Double.parseDouble(item.getLat()));
+                        itemLoc.setLongitude((long) Double.parseDouble(item.getLng()));
+                        float distanceInMeters = currentLocation.distanceTo(itemLoc);
+                        String distance = "";
+                        if (distanceInMeters < 10000) {
+                            distance = Double.toString(Math.round(distanceInMeters * 1000.0) / 1000.0) + " M";
+                        } else {
+                            double distanceInKilometers = distanceInMeters / 1000.0000;
+                            distance = Double.toString(Math.round(distanceInKilometers * 1000.0) / 1000.0) + " KM";
+                        }
+                        Log.d("Distance: ", distance);
 
-                    adapter.addThumbURL(new FindNearbyActivityAbstract.ImageURL(item.getImageUrl(), distance));
+                        adapter.addThumbURL(new FindNearbyActivity.ImageURL(item.getImageUrl(), distance));
+                    } catch (NumberFormatException e){
+                        Log.d(TAG, e.getMessage());
+                        continue;
+                    }
                 }
 
                 adapter.notifyDataSetChanged();
@@ -146,7 +138,7 @@ public class FindNearbyActivity extends AbstractLocationActivity {
 
     public class ImageURLAdapter extends BaseAdapter {
         private Context mContext;
-        private List<FindNearbyActivityAbstract.ImageURL> mThumbURLs;
+        private List<FindNearbyActivity.ImageURL> mThumbURLs;
         private int width;
         private GridView.LayoutParams parms;
 
@@ -179,12 +171,12 @@ public class FindNearbyActivity extends AbstractLocationActivity {
 
         // create a new ImageView for each item referenced by the Adapter
         public View getView(int position, View convertView, ViewGroup parent) {
-            FindNearbyActivityAbstract.ImageURLAdapter.myImageView imageView;
+            FindNearbyActivity.ImageURLAdapter.myImageView imageView;
 
             if (width != parent.getMeasuredWidth())
                 setWidth(parent.getMeasuredWidth());
 
-            imageView = new FindNearbyActivityAbstract.ImageURLAdapter.myImageView(mContext);
+            imageView = new FindNearbyActivity.ImageURLAdapter.myImageView(mContext);
             imageView.setLayoutParams(parms);
 
             if(!mThumbURLs.get(position).name.equals(""))
@@ -193,7 +185,7 @@ public class FindNearbyActivity extends AbstractLocationActivity {
             return imageView;
         }
 
-        public void addThumbURL(FindNearbyActivityAbstract.ImageURL url){
+        public void addThumbURL(FindNearbyActivity.ImageURL url){
             mThumbURLs.add(url);
         }
 
@@ -207,7 +199,7 @@ public class FindNearbyActivity extends AbstractLocationActivity {
                 this.setOrientation(LinearLayout.VERTICAL);
             }
 
-            public void setImageURL(final FindNearbyActivityAbstract.ImageURL url, int width){
+            public void setImageURL(final FindNearbyActivity.ImageURL url, int width){
 
                 imageView = new ImageView(mContext);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
