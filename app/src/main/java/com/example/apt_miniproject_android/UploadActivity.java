@@ -14,41 +14,92 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.google.api.gax.paging.Page;
-import com.google.cloud.storage.Bucket;
-import com.google.cloud.storage.BucketInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.apt_miniproject_android.backend.DefaultServerErrorAction;
+import com.example.apt_miniproject_android.backend.ServerCommunicator;
+import com.example.apt_miniproject_android.backend.ServerErrorAction;
+import com.example.apt_miniproject_android.backend.ServerResponseAction;
+import com.example.apt_miniproject_android.model.StreamInfo;
+import com.example.apt_miniproject_android.model.StreamItemInfo;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UploadActivity extends AppCompatActivity {
     private static final String TAG = UploadActivity.class.getSimpleName();
     private static final int PICK_IMAGE_REQUEST = 1;
     private String picturePath = "NULL";
+    private long streamID = new Long(0L);
+    private String streamName = "NULL";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
 
-        // Set the upload edit text hint
+        Log.v(TAG, "ON CREATE!");
+
+        // Set text hint
         EditText uploadHint;
         uploadHint = (EditText) findViewById(R.id.uploadEditText);
         uploadHint.setHint("Add a message and/or tags");
         uploadHint.setGravity(Gravity.TOP);
 
-        // Set stream name
-        EditText streamName = (EditText) findViewById(R.id.streamName);
-        streamName.setEnabled(false);
-
-        //TODO set stream name edit text
-        streamName.setText("OH MY!!!");
+        // This line is used for testing a specific streamID
+        //streamID = new Long(5631383682678784L);
 
 
+        // Test to see if intent extra was passed - then get streamID from intent
+        if (getIntent().getExtras() != null) {
+            streamID = getIntent().getExtras().getLong("streamID");
+            Log.v("INTENT INFO: ", Long.toString(streamID));
+
+            // get name of stream from Server
+
+            ServerCommunicator comm = new ServerCommunicator(findViewById(android.R.id.content));
+
+            comm.requestStreamItemInfoData(streamID, new ServerResponseAction() {
+                @Override
+                public void handleResponse(String response) {
+                    Gson gson = new GsonBuilder().create();
+                    StreamItemInfo[] streamItems = gson.fromJson(response, StreamItemInfo[].class);
+                    for (StreamItemInfo item : streamItems)
+                        streamName = item.getStreamName();
+                    Log.v("stream name: ", streamName);
+                }
+            });
+
+            // Do nothing if streamID was not passed along with intent.
+        } else {
+            Log.e(TAG, "Please specify \"streamID\" from calling Activity with intent.putExtra()");
+        }
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.v(TAG, "ON DESTROY!");
     }
 
 
@@ -60,41 +111,9 @@ public class UploadActivity extends AppCompatActivity {
         String content = uploadEditText.getText().toString();
         Log.v("UploadText", content);
         Log.d("Picture path: ", this.picturePath);
-
-
-//        String bucketName = "apt17-miniproj-whiteteam.appspot.com";
-
-
-//        //get message from message box
-//        String  msg = msgTextField.getText().toString();
-//
-//        //check whether the msg empty or not
-//        if(msg.length()>0) {
-//            HttpClient httpclient = new DefaultHttpClient();
-//            HttpPost httppost = new HttpPost("http://www.yourdomain.com/serverside-script.php");
-//
-//            try {
-//                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-//                nameValuePairs.add(new BasicNameValuePair("id", "01"));
-//                nameValuePairs.add(new BasicNameValuePair("message", msg));
-//                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-//                httpclient.execute(httppost);
-//                msgTextField.setText(""); //reset the message text field
-//                Toast.makeText(getBaseContext(),"Sent",Toast.LENGTH_SHORT).show();
-//            } catch (ClientProtocolException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            //display message if text field is empty
-//            Toast.makeText(getBaseContext(),"All fields are required",Toast.LENGTH_SHORT).show();
-//        }
-
-
     }
 
-    //TODO choose from library button
+    //Selects a image from a library
     public void chooseFromLibrary(View view) {
         Log.d(TAG, "Choosing image from library!");
 
@@ -106,7 +125,7 @@ public class UploadActivity extends AppCompatActivity {
 
     }
 
-    //TODO use camera button
+    //start camera activity
     public void useCamera(View view) {
         Log.d(TAG, "CameraButton Pressed!");
 
@@ -116,7 +135,7 @@ public class UploadActivity extends AppCompatActivity {
 
     }
 
-
+    // This is called after the "chooseFromLibrary" button is pressed.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
