@@ -60,9 +60,10 @@ public class ViewStreamsActivity extends AppCompatActivity {
                                     int position, long id) {
                 Toast.makeText(ViewStreamsActivity.this, "Stream " + id,
                         Toast.LENGTH_SHORT).show();
-                //Intent i = new Intent(v.getContext(), ViewStreamActivity.class);
-                //i.putExtra(id);
-                //startActivity(i);
+                Intent i = new Intent(v.getContext(), ViewAStreamActivity.class);
+
+                i.putExtra("streamID", id);
+                startActivity(i);
             }
         });
 

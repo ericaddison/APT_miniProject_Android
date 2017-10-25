@@ -26,22 +26,23 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <activity android:name=".ViewStreamsActivity" />
         <activity android:name=".CameraActivity" />
         <activity
             android:name=".FindNearbyActivity"
             android:label="@string/title_activity_find_nearby" />
+        <activity android:name=".ViewStreamsActivity" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+
+    </activity>
         <activity android:name=".UploadActivity" />
+        <activity android:name=".ViewAStreamActivity" />
         <activity android:name=".TestActivity" />
-        <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".LoginActivity"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
     </application>
 
 </manifest>

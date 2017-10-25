@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    style="@style/MainActivityTheme"
+    tools:context="com.example.apt_miniproject_android.ViewAStreamActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.10"
+        android:layout_marginBottom="20dp">
+        <include layout="@layout/content_connexus_title"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_current_stream"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Current Stream:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:clipChildren="true"
+        android:numColumns="4"/>
+
+
+    <Button
+        android:id="@+id/button_more_pictures"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="More Pictures" />
+
+    <Button
+        android:id="@+id/button_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upload an Image" />
+
+    <Button
+        android:id="@+id/button_view_all_streams"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View All Streams" />
+
+</LinearLayout>
