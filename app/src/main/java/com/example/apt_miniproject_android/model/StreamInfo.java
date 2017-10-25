@@ -50,4 +50,13 @@ public class StreamInfo {
         return newestDate;
     }
 
+    public static StreamInfo TestStreamInfo(){
+        StreamInfo s = new StreamInfo();
+        s.id = 12345;
+        s.name = "Test Stream Info";
+        s.owner= "Me";
+        s.coverImageURL = "";
+        return s;
+    }
+
 }

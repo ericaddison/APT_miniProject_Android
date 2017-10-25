@@ -41,7 +41,8 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/search_text"
+                android:imeOptions="actionSearch"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.7"
@@ -97,7 +98,7 @@
                 android:id="@+id/button_viewstreams_sub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="My Subscribed Streams" />
+                android:text="@string/sub_streams_button_text" />
         </LinearLayout>
 
     </LinearLayout>

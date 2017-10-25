@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -99,6 +98,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(" Logged in as " + acct.getDisplayName() + "\ntoken = " + acct.getIdToken());
+            Intent i = new Intent(this, ViewStreamsActivity.class);
+            i.putExtra(getString(R.string.user_account), acct);   // attempt to pass user object around
+            startActivity(i);
         } else {
             // Signed out, show unauthenticated UI.
             mStatusTextView.setText(getString(R.string.default_login_text));
