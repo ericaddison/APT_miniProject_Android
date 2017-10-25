@@ -8,11 +8,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.example.apt_miniproject_android.backend.DefaultServerErrorAction;
@@ -50,6 +52,18 @@ public class FindNearbyActivity extends AbstractLocationActivity {
         gridview = (GridView) findViewById(R.id.gridview);
         adapter = new FindNearbyActivity.ImageURLAdapter(this);
         gridview.setAdapter(adapter);
+
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                Object selectedItem = parent.getItemAtPosition(position);
+                FindNearbyActivity.ImageURL itemURL = (FindNearbyActivity.ImageURL)selectedItem;
+                Intent i = new Intent(v.getContext(), ViewImageActivity.class);
+                i.putExtra("imageURL", itemURL.url);
+                startActivity(i);
+            }
+        });
     }
 
     @Override
