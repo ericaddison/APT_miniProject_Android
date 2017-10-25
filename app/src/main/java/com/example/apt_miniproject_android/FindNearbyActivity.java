@@ -57,6 +57,8 @@ public class FindNearbyActivity extends AbstractLocationActivity {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
+                Log.d("click position: ", Integer.toString(position));
+
                 Object selectedItem = parent.getItemAtPosition(position);
                 FindNearbyActivity.ImageURL itemURL = (FindNearbyActivity.ImageURL)selectedItem;
                 Intent i = new Intent(v.getContext(), ViewImageActivity.class);
@@ -119,7 +121,6 @@ public class FindNearbyActivity extends AbstractLocationActivity {
                             double distanceInKilometers = distanceInMeters / 1000.0000;
                             distance = Double.toString(Math.round(distanceInKilometers * 1000.0) / 1000.0) + " KM";
                         }
-                        Log.d("Distance: ", distance);
 
                         adapter.addThumbURL(new FindNearbyActivity.ImageURL(item.getImageUrl(), distance));
                     } catch (NumberFormatException e){
@@ -138,7 +139,10 @@ public class FindNearbyActivity extends AbstractLocationActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        adapter.clear();
     }
+
+
 
     public class ImageURL{
         public String url;
@@ -171,12 +175,16 @@ public class FindNearbyActivity extends AbstractLocationActivity {
         }
 
 
+        public void clear(){
+            mThumbURLs.clear();
+        }
+
         public int getCount() {
             return mThumbURLs.size();
         }
 
         public Object getItem(int position) {
-            return null;
+            return mThumbURLs.get(position);
         }
 
         public long getItemId(int position) {
