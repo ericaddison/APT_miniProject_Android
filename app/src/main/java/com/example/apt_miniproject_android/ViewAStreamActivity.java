@@ -110,6 +110,8 @@ public class ViewAStreamActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        adapter.clear();
+
         long longStreamID = getIntent().getExtras().getLong("streamID");
         Log.d("StreamID", Long.toString(longStreamID));
         //ServerComm request: '/services/streamiteminfo?streamid=5629499534213120'
@@ -167,6 +169,9 @@ public class ViewAStreamActivity extends AppCompatActivity {
             gridview.setVerticalSpacing(spacing);
         }
 
+        public void clear(){
+            mThumbURLs.clear();
+        }
 
         public int getCount() {
             return mThumbURLs.size();
@@ -216,7 +221,6 @@ public class ViewAStreamActivity extends AppCompatActivity {
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setLayoutParams(new GridView.LayoutParams(width, width));
 
-                //textView = new TextView(mContext);
 
                 if(!url.url.equals(""))
                     Picasso.with(mContext)
@@ -224,10 +228,7 @@ public class ViewAStreamActivity extends AppCompatActivity {
                             .placeholder(android.R.drawable.picture_frame)
                             .into(imageView);
 
-                //textView.setText(url.name);
-
                 this.addView(imageView);
-                //this.addView(textView);
             }
 
 
