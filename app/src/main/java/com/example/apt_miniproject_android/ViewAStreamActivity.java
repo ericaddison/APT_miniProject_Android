@@ -22,6 +22,7 @@ import com.example.apt_miniproject_android.backend.ServerCommunicator;
 import com.example.apt_miniproject_android.backend.ServerResponseAction;
 import com.example.apt_miniproject_android.model.StreamInfo;
 import com.example.apt_miniproject_android.model.StreamItemInfo;
+import com.google.android.gms.vision.text.Text;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Callback;
@@ -34,6 +35,8 @@ public class ViewAStreamActivity extends AppCompatActivity {
 
     private GridView gridview;
     private ImageURLAdapter adapter;
+    String streamName = "Unknown";
+    String streamId = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,28 @@ public class ViewAStreamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_a_stream);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        streamId = Long.toString(getIntent().getExtras().getLong("streamID"));
+        List<String> streamIDList = new ArrayList<String>();
+        streamIDList.add(streamId);
+
+
+        ServerCommunicator comm1 = new ServerCommunicator(findViewById(android.R.id.content));
+        comm1.requestStreamInfoData(streamIDList, new ServerResponseAction() {
+            @Override
+            public void handleResponse(String response) {
+                Gson gson = new GsonBuilder().create();
+                StreamItemInfo[] streamItems = gson.fromJson(response, StreamItemInfo[].class);
+                Log.d("StreamInfo: ", response);
+                for(StreamItemInfo item : streamItems) {
+                    streamName = item.getStreamName();
+                }
+
+                TextView streamNameTextView = (TextView) findViewById(R.id.text_current_stream);
+                streamNameTextView.setText("Stream Name: " + streamName);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         // set gridview adapter and click behavior
         gridview = (GridView) findViewById(R.id.gridview);
@@ -66,18 +91,7 @@ public class ViewAStreamActivity extends AppCompatActivity {
             }
         });
 
-        // set upload button behavior
-        Button uploadButton = (Button) findViewById(R.id.button_upload);
-        uploadButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(ViewAStreamActivity.this, "Upload an Image",
-                        Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(view.getContext(), UploadActivity.class);
-                startActivity(i);
-            }
-        });
+        //Upload button listener moved to onStart so StreamID/Name values are populated.
 
         // set View All Streams button click behavior
         Button viewAllButton = (Button) findViewById(R.id.button_view_all_streams);
@@ -109,12 +123,32 @@ public class ViewAStreamActivity extends AppCompatActivity {
             public void handleResponse(String response) {
                 Gson gson = new GsonBuilder().create();
                 StreamItemInfo[] streamItems = gson.fromJson(response, StreamItemInfo[].class);
-                for(StreamItemInfo item : streamItems)
-                    adapter.addThumbURL(new ImageURL(item.getImageUrl(), null));
+                Log.d("StreamItems: ", response);
+                String streamName = "Stream Name: Unknown";
+                for(StreamItemInfo item : streamItems) {
+                    //StreamItems don't have names!!!  Just set name to "."
+                    adapter.addThumbURL(new ImageURL(item.getImageUrl(), "."));
+                    streamName = item.getStreamName();
+                }
 
-                //StreamItems don't have names!!!
-
+                TextView streamNameTextView = (TextView) findViewById(R.id.text_current_stream);
+                streamNameTextView.setText("Stream Name: " + streamName);
                 adapter.notifyDataSetChanged();
+            }
+        });
+
+        // set upload button behavior
+        Button uploadButton = (Button) findViewById(R.id.button_upload);
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ViewAStreamActivity.this, "Upload an Image",
+                        Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(view.getContext(), UploadActivity.class);
+                i.putExtra("streamName", streamName);
+                i.putExtra("streamID", streamId);
+                startActivity(i);
             }
         });
     }

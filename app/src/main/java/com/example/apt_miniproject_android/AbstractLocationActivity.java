@@ -93,7 +93,7 @@ abstract public class AbstractLocationActivity extends AppCompatActivity impleme
         if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-            Log.d("Location: ", location.toString());
+            //Log.d("Location: ", location.toString());
             handleNewLocation(location);
             lastLocation = location;
         }
