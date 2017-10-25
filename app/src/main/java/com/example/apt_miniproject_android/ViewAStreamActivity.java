@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.apt_miniproject_android.backend.ServerCommunicator;
 import com.example.apt_miniproject_android.backend.ServerResponseAction;
 import com.example.apt_miniproject_android.model.StreamInfo;
+import com.example.apt_miniproject_android.model.StreamItemInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Callback;
@@ -29,7 +30,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewStreamsActivity extends AppCompatActivity {
+public class ViewAStreamActivity extends AppCompatActivity {
 
     private GridView gridview;
     private ImageURLAdapter adapter;
@@ -37,7 +38,7 @@ public class ViewStreamsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_streams);
+        setContentView(R.layout.activity_view_a_stream);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -49,50 +50,48 @@ public class ViewStreamsActivity extends AppCompatActivity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Toast.makeText(ViewStreamsActivity.this, "You clicked on image " + position,
+                Toast.makeText(ViewAStreamActivity.this, "You clicked on image " + position,
                         Toast.LENGTH_SHORT).show();
+            }
+        });
 
-                Intent i = new Intent(v.getContext(), ViewAStreamActivity.class);
+        // set more images button behavior
+        Button moreButton = (Button) findViewById(R.id.button_more_pictures);
+        moreButton.setOnClickListener(new View.OnClickListener() {
 
-                i.putExtra("streamID", id);
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ViewAStreamActivity.this, "Next 16 Images",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // set upload button behavior
+        Button uploadButton = (Button) findViewById(R.id.button_upload);
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ViewAStreamActivity.this, "Upload an Image",
+                        Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(view.getContext(), UploadActivity.class);
                 startActivity(i);
             }
         });
 
-        // set "nearby" click behavior
-        View nearbyView = (View) findViewById(R.id.nearby_image);
-        nearbyView.setOnClickListener(new View.OnClickListener() {
+        // set View All Streams button click behavior
+        Button viewAllButton = (Button) findViewById(R.id.button_view_all_streams);
+        viewAllButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(ViewStreamsActivity.this, "Go to nearby streams page...",
+                Toast.makeText(ViewAStreamActivity.this, "View All Streams",
                         Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(view.getContext(), FindNearbyActivityAbstract.class);
+                Intent i = new Intent(view.getContext(), ViewStreamsActivity.class);
                 startActivity(i);
             }
         });
 
-        // set search button behavior
-        Button searchButton = (Button) findViewById(R.id.button_viewstreams_search);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(ViewStreamsActivity.this, "Search for streams...",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // set subscribed button behavior
-        Button subButton = (Button) findViewById(R.id.button_viewstreams_sub);
-        subButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(ViewStreamsActivity.this, "Go to subscribed stream page...",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
 
     }
 
@@ -100,14 +99,21 @@ public class ViewStreamsActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        long longStreamID = getIntent().getExtras().getLong("streamID");
+        Log.d("StreamID", Long.toString(longStreamID));
+        //ServerComm request: '/services/streamiteminfo?streamid=5629499534213120'
         ServerCommunicator comm = new ServerCommunicator(findViewById(android.R.id.content));
-        comm.requestAllStreamInfoData(new ServerResponseAction() {
+
+        comm.requestStreamItemInfoData(longStreamID, new ServerResponseAction() {
             @Override
             public void handleResponse(String response) {
                 Gson gson = new GsonBuilder().create();
-                StreamInfo[] streams = gson.fromJson(response, StreamInfo[].class);
-                for(StreamInfo stream : streams)
-                    adapter.addThumbURL(new ImageURL(stream.getCoverImageURL(), stream.getName()));
+                StreamItemInfo[] streamItems = gson.fromJson(response, StreamItemInfo[].class);
+                for(StreamItemInfo item : streamItems)
+                    adapter.addThumbURL(new ImageURL(item.getImageUrl(), null));
+
+                //StreamItems don't have names!!!
+
                 adapter.notifyDataSetChanged();
             }
         });
@@ -192,7 +198,7 @@ public class ViewStreamsActivity extends AppCompatActivity {
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setLayoutParams(new GridView.LayoutParams(width, width));
 
-                textView = new TextView(mContext);
+                //textView = new TextView(mContext);
 
                 if(!url.url.equals(""))
                     Picasso.with(mContext)
@@ -200,10 +206,10 @@ public class ViewStreamsActivity extends AppCompatActivity {
                             .placeholder(android.R.drawable.picture_frame)
                             .into(imageView);
 
-                textView.setText(url.name);
+                //textView.setText(url.name);
 
                 this.addView(imageView);
-                this.addView(textView);
+                //this.addView(textView);
             }
 
 

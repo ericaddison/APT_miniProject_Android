@@ -1,16 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:weightSum="1">
 
     <TextView
         android:id="@+id/locTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.15"
-        android:editable="false"
+        android:layout_height="20dp"
+        android:layout_weight="0.05"
         android:inputType="none"
         android:text="Current Location"
         android:visibility="visible" />
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="wrap_content"
+        android:layout_height="281dp"
+        android:numColumns="4"
+        android:padding="5dp"
+        android:paddingBottom="5dp"
+        android:paddingHorizontal="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:paddingVertical="10dp"
+        android:visibility="visible" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_weight="0.05" />
+
+    <TextView
+        android:id="@+id/nearbyTextView"
+        android:layout_width="266dp"
+        android:layout_height="44dp"
+        android:text="Nearby Pictures"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+    <Button
+        android:id="@+id/moreButton"
+        android:layout_width="146dp"
+        android:layout_height="58dp"
+        android:layout_weight="0.08"
+        android:text="More" />
+
+    <Button
+        android:id="@+id/viewAllStreamsButton"
+        android:layout_width="242dp"
+        android:layout_height="wrap_content"
+        android:onClick="viewAllStreamsOnClick"
+        android:text="View All Streams" />
+
 </LinearLayout>
