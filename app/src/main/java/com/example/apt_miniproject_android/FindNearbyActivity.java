@@ -54,7 +54,7 @@ public class FindNearbyActivity extends AbstractLocationActivity {
 
     @Override
     protected void handleNewLocation(Location location) {
-        Log.d(TAG, "handleNewLocation: " + location.toString());
+        Log.d(TAG, "handleNewLocation");
 
         View view = findViewById(android.R.id.content);
 

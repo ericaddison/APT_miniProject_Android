@@ -92,10 +92,21 @@ abstract public class AbstractLocationActivity extends AppCompatActivity impleme
         Log.d(TAG, "onConnected(bundle)");
         if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            if(location == null)
+                Log.d("onConnected: ", "lastLocation is null");
+            else
+                Log.d("onConnected: ", "lastLocation is " + location.toString());
+
+            //requestLocationUpdates will callback to onLocationChanged(location)
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+
+            //if(location == null)
+            //    Log.d("onConnected: ", "lastLocation is null");
+            //else
+            //    Log.d("onConnected: ", "lastLocation is " + location.toString());
             //Log.d("Location: ", location.toString());
-            handleNewLocation(location);
-            lastLocation = location;
+            //handleNewLocation(location);
+            //lastLocation = location;
         }
         else{
             Log.d(TAG, "onConnected(bundle), checkSelfPermission failed");
