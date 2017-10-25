@@ -78,6 +78,11 @@ public class UploadActivity extends AppCompatActivity {
                     for (StreamItemInfo item : streamItems)
                         streamName = item.getStreamName();
                     Log.v("stream name: ", streamName);
+
+                    // Set stream name textbox
+                    EditText streamNameTextBox = (EditText) findViewById(R.id.streamName);
+                    streamNameTextBox.setEnabled(false);
+                    streamNameTextBox.setText("Stream Name: " + streamName);
                 }
             });
 
