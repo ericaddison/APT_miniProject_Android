@@ -27,7 +27,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewImageActivity extends AppCompatActivity {
+public class ViewImageActivity extends BaseActivity {
     private Context mContext;
 
     @Override

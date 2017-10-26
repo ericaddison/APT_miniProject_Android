@@ -35,12 +35,6 @@ public class FindNearbyActivity extends AbstractLocationActivity {
     private GridView gridview;
     private FindNearbyActivity.ImageURLAdapter adapter;
 
-
-    public void viewAllStreamsOnClick(View view){
-        Intent i = new Intent(view.getContext(), ViewStreamsActivity.class);
-        startActivity(i);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

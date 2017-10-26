@@ -20,7 +20,7 @@ import com.google.android.gms.location.LocationServices;
  * Created by eric on 10/22/17.
  */
 
-abstract public class AbstractLocationActivity extends AppCompatActivity implements
+abstract public class AbstractLocationActivity extends BaseActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {

@@ -31,7 +31,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewAStreamActivity extends AppCompatActivity {
+public class ViewAStreamActivity extends BaseActivity {
 
     private GridView gridview;
     private ImageURLAdapter adapter;

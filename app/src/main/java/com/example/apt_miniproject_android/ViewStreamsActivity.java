@@ -28,7 +28,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class ViewStreamsActivity extends AppCompatActivity {
+public class ViewStreamsActivity extends BaseActivity {
 
     private GridView gridview;
     private StreamGridViewAdapter adapter;
@@ -37,7 +37,6 @@ public class ViewStreamsActivity extends AppCompatActivity {
     private boolean showingAll;
     private Button subButton;
     private static final String TAG = ViewStreamsActivity.class.getSimpleName();
-    private GoogleSigninHelper signinHelper;
 
 
 
@@ -46,8 +45,6 @@ public class ViewStreamsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_streams);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        signinHelper = new GoogleSigninHelper(this, TAG);
 
         comm = new ServerCommunicator(findViewById(android.R.id.content));
         fillGridServerAction = new ServerResponseAction() {
@@ -120,7 +117,7 @@ public class ViewStreamsActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                if(showingAll && signinHelper.getSignInAccount()!=null) {
+                if(showingAll && getSignInAccount()!=null) {
                     showSubscribedStreams();
                     subButton.setText(getString(R.string.all_streams_button_text));
                 } else {
@@ -148,12 +145,12 @@ public class ViewStreamsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        subButton.setEnabled(signinHelper.getSignInAccount()!=null);
+        subButton.setEnabled(getSignInAccount()!=null);
     }
 
     private void showSubscribedStreams(){
         adapter.clear();
-        comm.requestSubscribedStreamsInfoData(signinHelper.getSignInAccount().getIdToken(), fillGridServerAction);
+        comm.requestSubscribedStreamsInfoData(getSignInAccount().getIdToken(), fillGridServerAction);
         showingAll = false;
     }
 

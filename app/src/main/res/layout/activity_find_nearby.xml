@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -47,11 +48,12 @@
         android:layout_weight="0.08"
         android:text="More" />
 
-    <Button
-        android:id="@+id/viewAllStreamsButton"
-        android:layout_width="242dp"
+    <fragment
+        android:id="@+id/view_stream_button_fragment"
+        android:name="com.example.apt_miniproject_android.ViewStreamsButtonFragment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="viewAllStreamsOnClick"
-        android:text="View All Streams" />
+        android:layout_weight="0.05"
+        tools:layout="@layout/fragment_view_streams_button" />
 
 </LinearLayout>
