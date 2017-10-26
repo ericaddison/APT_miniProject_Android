@@ -1,9 +1,11 @@
 package com.example.apt_miniproject_android;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -14,12 +16,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.apt_miniproject_android.backend.DefaultServerErrorAction;
 import com.example.apt_miniproject_android.backend.ServerCommunicator;
 import com.example.apt_miniproject_android.backend.ServerErrorAction;
@@ -29,19 +25,30 @@ import com.example.apt_miniproject_android.model.StreamItemInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UploadActivity extends BaseActivity {
     private static final String TAG = UploadActivity.class.getSimpleName();
     private static final int PICK_IMAGE_REQUEST = 1;
-    private String picturePath = "NULL";
-    private long streamID = new Long(0L);
+    private String streamID = "0";
     private String streamName = "NULL";
+    private Uri picturePath;
 
 
     @Override
@@ -63,14 +70,14 @@ public class UploadActivity extends BaseActivity {
 
         // Test to see if intent extra was passed - then get streamID from intent
         if (getIntent().getExtras() != null) {
-            streamID = getIntent().getExtras().getLong("streamID");
-            Log.v("INTENT INFO: ", Long.toString(streamID));
+            streamID = getIntent().getExtras().getString("streamID");
+            streamName = getIntent().getExtras().getString("streamName");
+            Log.v("INTENT INFO: ", streamID);
 
             // get name of stream from Server
-
             ServerCommunicator comm = new ServerCommunicator(findViewById(android.R.id.content));
 
-            comm.requestStreamItemInfoData(streamID, new ServerResponseAction() {
+            comm.requestStreamItemInfoData(Long.parseLong(streamID), new ServerResponseAction() {
                 @Override
                 public void handleResponse(String response) {
                     Gson gson = new GsonBuilder().create();
@@ -90,8 +97,6 @@ public class UploadActivity extends BaseActivity {
         } else {
             Log.e(TAG, "Please specify \"streamID\" from calling Activity with intent.putExtra()");
         }
-
-
     }
 
     @Override
@@ -115,7 +120,46 @@ public class UploadActivity extends BaseActivity {
         EditText uploadEditText = (EditText) findViewById(R.id.uploadEditText);
         String content = uploadEditText.getText().toString();
         Log.v("UploadText", content);
-        Log.d("Picture path: ", this.picturePath);
+        Log.d("Picture path: ", picturePath.toString());
+
+        // get Upload URL
+        ServerCommunicator comm = new ServerCommunicator(findViewById(android.R.id.content));
+
+        comm.requestUploadURL(new ServerResponseAction() {
+            @Override
+            public void handleResponse(String response) {
+                // Get unique upload URL
+                String uploadURL = response;
+                Log.v("URL: ", uploadURL);
+
+                // MultiPart Form Post
+                try {
+                    // Turn picture path into byte array
+                    byte[] data = null;
+                    try {
+                        ContentResolver cr = getBaseContext().getContentResolver();
+                        InputStream inputStream = cr.openInputStream(picturePath);
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        data = baos.toByteArray();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    // print out byte array
+                    Log.v("DATA: ", new String(data));
+
+                    //TODO CREATE POST
+
+
+                } catch (Exception e) {
+                    Log.e(TAG, "Other Error: " + e.getLocalizedMessage());
+                }
+            }
+        });
+
+
     }
 
     //Selects a image from a library
@@ -151,10 +195,12 @@ public class UploadActivity extends BaseActivity {
             // Update Image Preview
             // START
             Uri uri = data.getData();
+            picturePath = uri;
+            Log.d("URI: ", uri.toString());
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                // Log.d(TAG, String.valueOf(bitmap));
+                //Log.d(TAG, String.valueOf(bitmap));
 
                 ImageView imageView = (ImageView) findViewById(R.id.uploadPreview);
                 imageView.setImageBitmap(bitmap);
@@ -163,13 +209,6 @@ public class UploadActivity extends BaseActivity {
             }
             // END
 
-
-            // Get absolute file path from content URI
-            // START
-            this.picturePath = uri.getPath();
-            // END
-
-            Log.d(TAG, "PICTURE PATH IS" + this.picturePath);
         }
 
     }

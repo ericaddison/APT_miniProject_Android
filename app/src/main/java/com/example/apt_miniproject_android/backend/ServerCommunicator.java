@@ -88,6 +88,16 @@ public class ServerCommunicator {
         doRequest(myUrl, callbackAction);
     }
 
+    /**
+     * Request "SearchTags" data from the server
+     */
+    public void requestUploadURL(ServerResponseAction callbackAction){
+        Uri.Builder uri = getBaseServicesUri();
+        uri.appendPath(mContext.getString(R.string.url_service_get_upload_url));
+        String myUrl = uri.build().toString();
+        doRequest(myUrl, callbackAction);
+    }
+
 
     /**
      * Request "BatchStreamInfo" data from the server
