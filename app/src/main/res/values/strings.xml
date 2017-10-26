@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">APT_miniProject_Android</string>
+    <string name="app_name">Connexus!</string>
 
     <!-- User login strings  -->
     <string name="user_account">userAccount</string>
