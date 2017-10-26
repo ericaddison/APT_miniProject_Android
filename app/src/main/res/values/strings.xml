@@ -8,6 +8,9 @@
     <string name="take_picture">Take Picture</string>
     <string name="use_picture">Use This Picture</string>
     <string name="title">Connexus!</string>
+    <string name="logout_text">sign out</string>
+    <string name="login_text">sign in</string>
+    <string name="logout_extra_parm">logout</string>
 
     <!-- View All Streams Activity Strings  -->
     <string name="view_streams">View Streams</string>
@@ -41,4 +44,5 @@
     <string name="url_auth_token_term">authToken</string>
     <string name="title_activity_find_nearby">Find Nearby Streams</string>
     <string name="default_login_text">Not logged in</string>
+    <string name="login_title_text">Brought to you by the White Team</string>
 </resources>

@@ -36,7 +36,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UploadActivity extends AppCompatActivity {
+public class UploadActivity extends BaseActivity {
     private static final String TAG = UploadActivity.class.getSimpleName();
     private static final int PICK_IMAGE_REQUEST = 1;
     private String picturePath = "NULL";
