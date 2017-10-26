@@ -35,6 +35,7 @@
     <string name="url_service_streaminfo">streaminfo</string>
     <string name="url_service_subscribed_streams">subscribedstreams</string>
     <string name="url_service_streamiteminfo">streamiteminfo</string>
+    <string name="url_service_get_upload_url">getuploadurl</string>
 
     <!-- URL Request param names -->
     <string name="url_parm_user_id">userID</string>
