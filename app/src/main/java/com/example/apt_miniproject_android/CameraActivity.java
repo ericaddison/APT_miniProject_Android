@@ -118,7 +118,6 @@ public class CameraActivity extends AbstractLocationActivity {
         i.putExtra(getString(R.string.latitude),getLastLocation().getLatitude());
         i.putExtra(getString(R.string.longitude),getLastLocation().getLongitude());
         setResult(CAMERA_RESULT, i);
-
         finish();
     }
 
@@ -324,7 +323,6 @@ public class CameraActivity extends AbstractLocationActivity {
                 @Override
                 public void onImageAvailable(ImageReader reader) {
                     try(Image image = reader.acquireLatestImage();) {
-
                         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
@@ -474,8 +472,6 @@ public class CameraActivity extends AbstractLocationActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e(TAG, "onResume");
-
         // set use button to disabled
         usePictureButton.setOnClickListener(null);
 
@@ -495,4 +491,5 @@ public class CameraActivity extends AbstractLocationActivity {
         stopBackgroundThread();
         super.onPause();
     }
+
 }

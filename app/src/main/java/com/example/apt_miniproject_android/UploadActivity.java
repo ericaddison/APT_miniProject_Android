@@ -19,6 +19,7 @@ import com.example.apt_miniproject_android.backend.ServerResponseAction;
 import com.example.apt_miniproject_android.model.StreamItemInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -79,13 +80,6 @@ public class UploadActivity extends BaseActivity {
         } else {
             Log.e(TAG, "Please specify \"streamID\" from calling Activity with intent.putExtra()");
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-
     }
 
     @Override
@@ -189,23 +183,18 @@ public class UploadActivity extends BaseActivity {
             uri = (Uri) data.getParcelableExtra(getString(R.string.camera_filename));
             double lat = (double) data.getSerializableExtra(getString(R.string.latitude));
             double lng = (double) data.getSerializableExtra(getString(R.string.longitude));
-            Toast.makeText(getApplicationContext(), "Got camera file: " + uri + ", location = " + lat + ", " + lng, Toast.LENGTH_SHORT).show();
         }
+
 
         if (uri != null) {
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                //Log.d(TAG, String.valueOf(bitmap));
-
-                ImageView imageView = (ImageView) findViewById(R.id.uploadPreview);
-                imageView.setImageBitmap(bitmap);
-                Toast.makeText(getApplicationContext(), "Setting bitmap...", Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            ImageView imageView = (ImageView) findViewById(R.id.uploadPreview);
+            Picasso.with(this)
+                    .load(uri)
+                    .placeholder(android.R.drawable.picture_frame)
+                    .fit()
+                    .centerCrop()
+                    .into(imageView);
         }
-
     }
-
 
 }
