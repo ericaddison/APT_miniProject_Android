@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.example.apt_miniproject_android.backend.DefaultServerErrorAction;
@@ -28,7 +28,10 @@ import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FindNearbyActivity extends AbstractLocationActivity {
 
@@ -122,7 +125,7 @@ public class FindNearbyActivity extends AbstractLocationActivity {
                         continue;
                     }
                 }
-
+                adapter.sort();
                 adapter.notifyDataSetChanged();
             }
         };
@@ -138,13 +141,37 @@ public class FindNearbyActivity extends AbstractLocationActivity {
 
 
 
-    public class ImageURL{
+    public class ImageURL implements Comparable {
         public String url;
         public String name;
 
         public ImageURL(String url, String name) {
             this.url = url;
             this.name = name;
+        }
+
+
+        @Override
+        public int compareTo(@NonNull Object o) {
+            Log.d("compareTo: ", ((ImageURL) o).name);
+            ImageURL compObject = (ImageURL) o;
+            Pattern regExPattern = Pattern.compile("([0-9\\.]+)");
+
+            Double myDistance = 0.0;
+            Double thisDistance = 0.0;
+            Matcher myMatcher = regExPattern.matcher(compObject.name);
+            Matcher thisMatcher = regExPattern.matcher(this.name);
+
+            if (myMatcher.find())
+            {
+                myDistance = Double.parseDouble(myMatcher.group(1));
+            }
+
+            if (thisMatcher.find())
+            {
+                thisDistance = Double.parseDouble(thisMatcher.group(1));
+            }
+            return (int)(thisDistance - myDistance);
         }
     }
 
@@ -171,6 +198,10 @@ public class FindNearbyActivity extends AbstractLocationActivity {
 
         public void clear(){
             mThumbURLs.clear();
+        }
+
+        public void sort() {
+            Collections.sort(mThumbURLs);
         }
 
         public int getCount() {
