@@ -81,8 +81,6 @@ public class ViewAStreamActivity extends BaseActivity {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(ViewAStreamActivity.this, "Upload an Image",
-                        Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(view.getContext(), UploadActivity.class);
                 i.putExtra("streamName", streamName);
                 i.putExtra("streamID", streamId);
@@ -96,8 +94,6 @@ public class ViewAStreamActivity extends BaseActivity {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(ViewAStreamActivity.this, "View All Streams",
-                        Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(view.getContext(), ViewStreamsActivity.class);
                 startActivity(i);
             }
@@ -226,6 +222,8 @@ public class ViewAStreamActivity extends BaseActivity {
                     Picasso.with(mContext)
                             .load(url.url)
                             .placeholder(android.R.drawable.picture_frame)
+                            .fit()
+                            .centerCrop()
                             .into(imageView);
 
                 this.addView(imageView);

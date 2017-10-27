@@ -11,6 +11,9 @@
     <string name="logout_text">sign out</string>
     <string name="login_text">sign in</string>
     <string name="logout_extra_parm">logout</string>
+    <string name="camera_filename">camera_filename</string>
+    <string name="latitude">lat</string>
+    <string name="longitude">lng</string>
 
     <!-- View All Streams Activity Strings  -->
     <string name="view_streams">View Streams</string>

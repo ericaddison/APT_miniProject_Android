@@ -227,6 +227,8 @@ public class FindNearbyActivity extends AbstractLocationActivity {
                     Picasso.with(mContext)
                             .load(url.url)
                             .placeholder(android.R.drawable.picture_frame)
+                            .fit()
+                            .centerCrop()
                             .into(imageView);
 
                 textView.setText(url.name);

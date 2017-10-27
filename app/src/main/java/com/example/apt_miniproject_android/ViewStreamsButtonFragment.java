@@ -32,7 +32,6 @@ public class ViewStreamsButtonFragment extends Fragment {
     }
 
     public void gotoStreamsPage(View v){
-        Toast.makeText(v.getContext(), "Going to streams page...", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(v.getContext(), ViewStreamsActivity.class);
         startActivity(i);
     }

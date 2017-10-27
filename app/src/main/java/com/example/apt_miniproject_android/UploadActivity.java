@@ -2,46 +2,29 @@ package com.example.apt_miniproject_android;
 
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.example.apt_miniproject_android.backend.DefaultServerErrorAction;
 import com.example.apt_miniproject_android.backend.ServerCommunicator;
-import com.example.apt_miniproject_android.backend.ServerErrorAction;
 import com.example.apt_miniproject_android.backend.ServerResponseAction;
-import com.example.apt_miniproject_android.model.StreamInfo;
 import com.example.apt_miniproject_android.model.StreamItemInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import org.json.JSONObject;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UploadActivity extends BaseActivity {
     private static final String TAG = UploadActivity.class.getSimpleName();
@@ -72,7 +55,7 @@ public class UploadActivity extends BaseActivity {
         if (getIntent().getExtras() != null) {
             streamID = getIntent().getExtras().getString("streamID");
             streamName = getIntent().getExtras().getString("streamName");
-            Log.v("INTENT INFO: ", streamID);
+            Log.v("UPLOAD", "INTENT INFO: "+ streamID);
 
             // get name of stream from Server
             ServerCommunicator comm = new ServerCommunicator(findViewById(android.R.id.content));
@@ -97,13 +80,6 @@ public class UploadActivity extends BaseActivity {
         } else {
             Log.e(TAG, "Please specify \"streamID\" from calling Activity with intent.putExtra()");
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-
     }
 
     @Override
@@ -180,7 +156,7 @@ public class UploadActivity extends BaseActivity {
 
         // Go to Camera Activity
         Intent intent = new Intent(this, CameraActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, CameraActivity.CAMERA_RESULT);
 
     }
 
@@ -190,28 +166,36 @@ public class UploadActivity extends BaseActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
 
+        Uri uri = null;
+
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             // Update Image Preview
             // START
-            Uri uri = data.getData();
+            uri = data.getData();
             picturePath = uri;
             Log.d("URI: ", uri.toString());
 
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                //Log.d(TAG, String.valueOf(bitmap));
 
-                ImageView imageView = (ImageView) findViewById(R.id.uploadPreview);
-                imageView.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             // END
 
+        } else if (requestCode == CameraActivity.CAMERA_RESULT){
+            uri = (Uri) data.getParcelableExtra(getString(R.string.camera_filename));
+            double lat = (double) data.getSerializableExtra(getString(R.string.latitude));
+            double lng = (double) data.getSerializableExtra(getString(R.string.longitude));
         }
 
-    }
 
+        if (uri != null) {
+            ImageView imageView = (ImageView) findViewById(R.id.uploadPreview);
+            Picasso.with(this).invalidate(uri);
+            Picasso.with(this)
+                    .load(uri)
+                    .placeholder(android.R.drawable.picture_frame)
+                    .fit()
+                    .centerInside()
+                    .into(imageView);
+        }
+    }
 
 }
