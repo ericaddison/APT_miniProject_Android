@@ -8,6 +8,7 @@ package com.example.apt_miniproject_android;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
@@ -24,6 +25,7 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -38,6 +40,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -53,9 +56,12 @@ import java.util.List;
 
 public class CameraActivity extends AbstractLocationActivity {
 
+    public static final int CAMERA_RESULT = 405;
+
     private static final String TAG = "CameraActivity";
     private View takePictureButton;
     private View usePictureButton;
+    private ImageView usePictureImageView;
     private TextureView textureView;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     static {
@@ -96,19 +102,49 @@ public class CameraActivity extends AbstractLocationActivity {
         });
 
         usePictureButton = (View) findViewById(R.id.button_use_picture);
+        usePictureImageView = (ImageView) findViewById(R.id.image_use_picture);
         assert usePictureButton != null;
-        usePictureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(CameraActivity.this, "Using this picture!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        disableUseButton();
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         DSI_height = displayMetrics.heightPixels;
         DSI_width = displayMetrics.widthPixels;
+    }
 
+    private void useThisPic(View v){
+        Intent i = new Intent(v.getContext(), UploadActivity.class);
+        i.putExtra(getString(R.string.camera_filename), Uri.fromFile(file));
+        i.putExtra(getString(R.string.latitude),getLastLocation().getLatitude());
+        i.putExtra(getString(R.string.longitude),getLastLocation().getLongitude());
+        setResult(CAMERA_RESULT, i);
+
+        finish();
+    }
+
+    private void enableUseButton(){
+        runOnUiThread(new Runnable() {
+                          @Override
+                          public void run() {
+                              usePictureButton.setOnClickListener(new View.OnClickListener() {
+                                  @Override
+                                  public void onClick(View v) {
+                                      useThisPic(v);
+                                  }
+                              });
+                              usePictureImageView.setImageResource(R.mipmap.ic_thumbup);
+                          }
+                      });
+    }
+
+    private void disableUseButton(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                usePictureButton.setOnClickListener(null);
+                usePictureImageView.setImageResource(R.mipmap.ic_thumbup_gray);
+            }
+        });
     }
 
 
@@ -133,9 +169,6 @@ public class CameraActivity extends AbstractLocationActivity {
         Log.d(TAG, "TextureView Width : " + viewWidth + " TextureView Height : " + viewHeight);
         textureView.setLayoutParams(new FrameLayout.LayoutParams(viewWidth, viewHeight));
     }
-
-
-
 
 
 
@@ -224,7 +257,8 @@ public class CameraActivity extends AbstractLocationActivity {
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
             super.onCaptureCompleted(session, request, result);
-            Toast.makeText(CameraActivity.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
+            Toast.makeText(CameraActivity.this, "Captured picture", Toast.LENGTH_SHORT).show();
+            enableUseButton();
             createCameraPreview();
         }
     };
@@ -277,7 +311,7 @@ public class CameraActivity extends AbstractLocationActivity {
             // Orientation
             int rotation = getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
-            final File file = new File(Environment.getExternalStorageDirectory()+"/pic.jpg");
+            file = new File(Environment.getExternalStorageDirectory()+"/pic.jpg");
 
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
@@ -317,8 +351,8 @@ public class CameraActivity extends AbstractLocationActivity {
                 @Override
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
-                    Toast.makeText(CameraActivity.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(CameraActivity.this, "loc: " + getLastLocation().getLatitude() + ", " + getLastLocation().getLongitude(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CameraActivity.this, "Captured picture", Toast.LENGTH_SHORT).show();
+                    enableUseButton();
                     createCameraPreview();
                 }
             };
@@ -437,6 +471,10 @@ public class CameraActivity extends AbstractLocationActivity {
     protected void onResume() {
         super.onResume();
         Log.e(TAG, "onResume");
+
+        // set use button to disabled
+        usePictureButton.setOnClickListener(null);
+
         startBackgroundThread();
         if (textureView.isAvailable()) {
             openCamera();

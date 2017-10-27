@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.apt_miniproject_android.backend.DefaultServerErrorAction;
 import com.example.apt_miniproject_android.backend.ServerCommunicator;
@@ -72,7 +73,7 @@ public class UploadActivity extends BaseActivity {
         if (getIntent().getExtras() != null) {
             streamID = getIntent().getExtras().getString("streamID");
             streamName = getIntent().getExtras().getString("streamName");
-            Log.v("INTENT INFO: ", streamID);
+            Log.v("UPLOAD", "INTENT INFO: "+ streamID);
 
             // get name of stream from Server
             ServerCommunicator comm = new ServerCommunicator(findViewById(android.R.id.content));
@@ -180,7 +181,7 @@ public class UploadActivity extends BaseActivity {
 
         // Go to Camera Activity
         Intent intent = new Intent(this, CameraActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, CameraActivity.CAMERA_RESULT);
 
     }
 
@@ -190,14 +191,26 @@ public class UploadActivity extends BaseActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
 
+        Uri uri = null;
+
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             // Update Image Preview
             // START
-            Uri uri = data.getData();
+            uri = data.getData();
             picturePath = uri;
             Log.d("URI: ", uri.toString());
 
+
+            // END
+
+        } else if (requestCode == CameraActivity.CAMERA_RESULT){
+            uri = (Uri) data.getParcelableExtra(getString(R.string.camera_filename));
+            double lat = (double) data.getSerializableExtra(getString(R.string.latitude));
+            double lng = (double) data.getSerializableExtra(getString(R.string.longitude));
+        }
+
+        if (uri != null) {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 //Log.d(TAG, String.valueOf(bitmap));
@@ -207,8 +220,6 @@ public class UploadActivity extends BaseActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            // END
-
         }
 
     }

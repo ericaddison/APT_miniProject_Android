@@ -66,10 +66,7 @@ public class ViewStreamsActivity extends BaseActivity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Toast.makeText(ViewStreamsActivity.this, "Stream " + id,
-                        Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(v.getContext(), ViewAStreamActivity.class);
-
                 i.putExtra("streamID", id);
                 startActivity(i);
             }
