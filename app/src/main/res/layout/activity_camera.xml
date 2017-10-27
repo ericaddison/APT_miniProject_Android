@@ -8,12 +8,13 @@
     style="@style/MainActivityTheme"
     tools:context="com.example.apt_miniproject_android.ViewStreamsActivity">
 
-    <LinearLayout
+    <fragment
+        android:id="@+id/title_fragment"
+        android:name="com.example.apt_miniproject_android.TitleFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.135">
-        <include layout="@layout/fragment_title" />
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        tools:layout="@layout/fragment_title" />
 
     <FrameLayout
         android:layout_width="match_parent"
