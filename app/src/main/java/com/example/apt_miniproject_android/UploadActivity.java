@@ -188,11 +188,12 @@ public class UploadActivity extends BaseActivity {
 
         if (uri != null) {
             ImageView imageView = (ImageView) findViewById(R.id.uploadPreview);
+            Picasso.with(this).invalidate(uri);
             Picasso.with(this)
                     .load(uri)
                     .placeholder(android.R.drawable.picture_frame)
                     .fit()
-                    .centerCrop()
+                    .centerInside()
                     .into(imageView);
         }
     }

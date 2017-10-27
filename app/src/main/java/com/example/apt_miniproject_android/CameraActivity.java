@@ -260,7 +260,7 @@ public class CameraActivity extends AbstractLocationActivity {
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
             super.onCaptureCompleted(session, request, result);
-            Toast.makeText(CameraActivity.this, "Captured picture", Toast.LENGTH_SHORT).show();
+            Utils.uiThreadShortToast(CameraActivity.this, "Captured Picture");
             enableUseButton();
             createCameraPreview();
         }
@@ -331,8 +331,6 @@ public class CameraActivity extends AbstractLocationActivity {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
-                    } finally {
-                        Toast.makeText(getApplicationContext(), "image closed...", Toast.LENGTH_SHORT).show();
                     }
                 }
                 private void save(byte[] bytes) throws IOException {
@@ -353,7 +351,7 @@ public class CameraActivity extends AbstractLocationActivity {
                 @Override
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
-                    Toast.makeText(getApplicationContext(), "Captured picture", Toast.LENGTH_SHORT).show();
+                    Utils.uiThreadShortToast(CameraActivity.this, "Captured Picture");
                     enableUseButton();
                     createCameraPreview();
                 }
