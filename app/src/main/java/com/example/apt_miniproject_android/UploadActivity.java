@@ -2,47 +2,27 @@ package com.example.apt_miniproject_android;
 
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.example.apt_miniproject_android.backend.DefaultServerErrorAction;
 import com.example.apt_miniproject_android.backend.ServerCommunicator;
-import com.example.apt_miniproject_android.backend.ServerErrorAction;
 import com.example.apt_miniproject_android.backend.ServerResponseAction;
-import com.example.apt_miniproject_android.model.StreamInfo;
 import com.example.apt_miniproject_android.model.StreamItemInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UploadActivity extends BaseActivity {
     private static final String TAG = UploadActivity.class.getSimpleName();

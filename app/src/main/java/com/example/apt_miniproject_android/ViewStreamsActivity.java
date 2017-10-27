@@ -78,8 +78,6 @@ public class ViewStreamsActivity extends BaseActivity {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(ViewStreamsActivity.this, "Go to nearby streams page...",
-                        Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(view.getContext(), FindNearbyActivity.class);
                 startActivity(i);
             }
