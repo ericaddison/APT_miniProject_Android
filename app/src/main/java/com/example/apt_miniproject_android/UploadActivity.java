@@ -20,6 +20,9 @@ import com.example.apt_miniproject_android.model.StreamItemInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -32,6 +35,8 @@ public class UploadActivity extends BaseActivity {
     private String streamID = "0";
     private String streamName = "NULL";
     private Uri picturePath;
+    private double lat = 0;
+    private double lng = 0;
 
 
     @Override
@@ -55,7 +60,6 @@ public class UploadActivity extends BaseActivity {
         if (getIntent().getExtras() != null) {
             streamID = getIntent().getExtras().getString("streamID");
             streamName = getIntent().getExtras().getString("streamName");
-            Log.v("UPLOAD", "INTENT INFO: "+ streamID);
 
             // get name of stream from Server
             ServerCommunicator comm = new ServerCommunicator(findViewById(android.R.id.content));
@@ -83,9 +87,9 @@ public class UploadActivity extends BaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.v(TAG, "ON DESTROY!");
+    protected void onResume() {
+        super.onResume();
+
     }
 
 
@@ -107,6 +111,7 @@ public class UploadActivity extends BaseActivity {
                 // Get unique upload URL
                 String uploadURL = response;
                 Log.v("URL: ", uploadURL);
+                Log.v("LAT AND LONG: ", Double.toString(lat) + Double.toString(lng));
 
                 // MultiPart Form Post
                 try {
@@ -127,6 +132,8 @@ public class UploadActivity extends BaseActivity {
                     Log.v("DATA: ", new String(data));
 
                     //TODO CREATE POST
+                    // http://loopj.com/android-async-http/doc/com/loopj/android/http/AsyncHttpClient.html
+                    AsyncHttpClient client = new AsyncHttpClient();
 
 
                 } catch (Exception e) {
@@ -181,8 +188,9 @@ public class UploadActivity extends BaseActivity {
 
         } else if (requestCode == CameraActivity.CAMERA_RESULT){
             uri = (Uri) data.getParcelableExtra(getString(R.string.camera_filename));
-            double lat = (double) data.getSerializableExtra(getString(R.string.latitude));
-            double lng = (double) data.getSerializableExtra(getString(R.string.longitude));
+            picturePath = uri;
+            lat = (double) data.getSerializableExtra(getString(R.string.latitude));
+            lng = (double) data.getSerializableExtra(getString(R.string.longitude));
         }
 
 
