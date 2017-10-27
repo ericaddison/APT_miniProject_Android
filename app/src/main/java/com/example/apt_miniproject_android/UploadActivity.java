@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -119,11 +120,17 @@ public class UploadActivity extends BaseActivity {
 //                        e.printStackTrace();
 //                    }
 //
-//                    // print out byte array
-//                    Log.v("DATA: ", new String(data));
+//                    String encoded = Base64.encodeToString(data, Base64.DEFAULT);
+//                     //print out byte array
+//                    Log.v("Encoded", encoded);
 
                     //TODO CREATE POST
                     // http://loopj.com/android-async-http/doc/com/loopj/android/http/AsyncHttpClient.html
+
+                    // shows content of post request
+                    //UploadHelper.postImage("http://httpbin.org/post", picturePath, streamID, lat, lng);
+
+                    // real request
                     UploadHelper.postImage(uploadURL, picturePath, streamID, lat, lng);
 
 

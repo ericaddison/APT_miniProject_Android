@@ -30,11 +30,14 @@ public class UploadHelper {
         File imgFile = new File(picturePath.getPath());
         RequestParams params = new RequestParams();
         try {
-            params.put("file", imgFile);
+            params.setForceMultipartEntityContentType(true);
+            params.put("file", imgFile, "image/jpeg");
             params.put("streamID", streamID);
             params.put("lat", lat);
             params.put("lng", lng);
-            params.put("redirect", "https://apt17-miniproj-whiteteam.appspot.com/");    //not sure if needed.
+            params.put("url", "");
+            params.put("submit", "Submit");
+//            params.put("redirect", "https://apt17-miniproj-whiteteam.appspot.com/viewstream?streamID=" + streamID);
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -45,6 +48,11 @@ public class UploadHelper {
         Log.d("postImage", "file name: " + imgFile.getPath());
         Log.d("postImage", uploadUrl);
         Log.d("postImage", "ID, lat, lng " + streamID + ", " + Double.toString(lat) + ", " + Double.toString(lng));
+
+
+        client.addHeader("Accept-Encoding:", "gzip, deflate");
+        client.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+
         client.post(uploadUrl, params, new AsyncHttpResponseHandler() {
 
             @Override
@@ -53,8 +61,10 @@ public class UploadHelper {
                 String content = null;
                 try {
                     content = new String(responseBody, "UTF-8"); // from http://stackoverflow.com/q/26787928
-                    Log.d(this.getClass().getSimpleName(), "response:" + content);
-//					sendDataToUrl(content);
+                    //Log.d(this.getClass().getSimpleName(), "response:" + content);
+
+                    logLargeString(content);
+
                 } catch (UnsupportedEncodingException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -71,4 +81,15 @@ public class UploadHelper {
             }
         });
     }
+
+    // Help logging long responses
+    public static void logLargeString(String str) {
+        if(str.length() > 3000) {
+            Log.i("Response", str.substring(0, 3000));
+            logLargeString(str.substring(3000));
+        } else {
+            Log.i("Response", str); // continuation
+        }
+    }
+
 }
