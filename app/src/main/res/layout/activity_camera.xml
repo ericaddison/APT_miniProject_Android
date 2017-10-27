@@ -67,7 +67,7 @@
                 android:id="@+id/image_use_picture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/ic_thumbup" />
+                app:srcCompat="@mipmap/ic_thumbup_gray" />
 
             <TextView
                 android:layout_width="match_parent"

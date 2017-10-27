@@ -132,7 +132,9 @@ public class CameraActivity extends AbstractLocationActivity {
                                       useThisPic(v);
                                   }
                               });
-                              usePictureImageView.setImageResource(R.mipmap.ic_thumbup);
+                              if(usePictureImageView!=null) {
+                                  usePictureImageView.setImageResource(R.mipmap.ic_thumbup);
+                              }
                           }
                       });
     }
@@ -142,7 +144,9 @@ public class CameraActivity extends AbstractLocationActivity {
             @Override
             public void run() {
                 usePictureButton.setOnClickListener(null);
-                usePictureImageView.setImageResource(R.mipmap.ic_thumbup_gray);
+                if(usePictureImageView!=null) {
+                    usePictureImageView.setImageResource(R.mipmap.ic_thumbup_gray);
+                }
             }
         });
     }
