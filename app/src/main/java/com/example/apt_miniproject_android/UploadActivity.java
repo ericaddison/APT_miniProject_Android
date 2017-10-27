@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.apt_miniproject_android.backend.ServerCommunicator;
 import com.example.apt_miniproject_android.backend.ServerResponseAction;
@@ -188,6 +189,7 @@ public class UploadActivity extends BaseActivity {
             uri = (Uri) data.getParcelableExtra(getString(R.string.camera_filename));
             double lat = (double) data.getSerializableExtra(getString(R.string.latitude));
             double lng = (double) data.getSerializableExtra(getString(R.string.longitude));
+            Toast.makeText(getApplicationContext(), "Got camera file: " + uri + ", location = " + lat + ", " + lng, Toast.LENGTH_SHORT).show();
         }
 
         if (uri != null) {
@@ -197,6 +199,7 @@ public class UploadActivity extends BaseActivity {
 
                 ImageView imageView = (ImageView) findViewById(R.id.uploadPreview);
                 imageView.setImageBitmap(bitmap);
+                Toast.makeText(getApplicationContext(), "Setting bitmap...", Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();
             }

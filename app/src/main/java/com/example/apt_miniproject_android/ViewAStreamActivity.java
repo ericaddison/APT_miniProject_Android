@@ -222,6 +222,8 @@ public class ViewAStreamActivity extends BaseActivity {
                     Picasso.with(mContext)
                             .load(url.url)
                             .placeholder(android.R.drawable.picture_frame)
+                            .fit()
+                            .centerCrop()
                             .into(imageView);
 
                 this.addView(imageView);

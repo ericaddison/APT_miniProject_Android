@@ -109,10 +109,14 @@ public class StreamGridViewAdapter extends BaseAdapter {
                 Picasso.with(mContext)
                         .load(streamInfo.getCoverImageURL())
                         .placeholder(android.R.drawable.picture_frame)
+                        .fit()
+                        .centerCrop()
                         .into(imageView);
             else
                 Picasso.with(mContext)
                         .load(android.R.drawable.ic_menu_close_clear_cancel)
+                        .fit()
+                        .centerCrop()
                         .into(imageView);
 
             textView.setText(streamInfo.getName());

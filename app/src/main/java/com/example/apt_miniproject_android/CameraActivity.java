@@ -315,14 +315,16 @@ public class CameraActivity extends AbstractLocationActivity {
             // Orientation
             int rotation = getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
+            if(file != null){
+                file.delete();
+            }
             file = new File(Environment.getExternalStorageDirectory()+"/pic.jpg");
 
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader reader) {
-                    Image image = null;
-                    try {
-                        image = reader.acquireLatestImage();
+                    try(Image image = reader.acquireLatestImage();) {
+
                         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
@@ -332,9 +334,7 @@ public class CameraActivity extends AbstractLocationActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
-                        if (image != null) {
-                            image.close();
-                        }
+                        Toast.makeText(getApplicationContext(), "image closed...", Toast.LENGTH_SHORT).show();
                     }
                 }
                 private void save(byte[] bytes) throws IOException {
@@ -355,7 +355,7 @@ public class CameraActivity extends AbstractLocationActivity {
                 @Override
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
-                    Toast.makeText(CameraActivity.this, "Captured picture", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Captured picture", Toast.LENGTH_SHORT).show();
                     enableUseButton();
                     createCameraPreview();
                 }
@@ -401,7 +401,7 @@ public class CameraActivity extends AbstractLocationActivity {
                 }
                 @Override
                 public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession) {
-                    Toast.makeText(CameraActivity.this, "Configuration change", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Configuration change", Toast.LENGTH_SHORT).show();
                 }
             }, null);
         } catch (CameraAccessException e) {
@@ -464,7 +464,7 @@ public class CameraActivity extends AbstractLocationActivity {
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
             if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 // close the app
-                Toast.makeText(CameraActivity.this, "Sorry!!!, you can't use this app without granting permission", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Sorry!!!, you can't use this app without granting permission", Toast.LENGTH_LONG).show();
                 finish();
             }
         }
