@@ -1,13 +1,12 @@
 package com.example.apt_miniproject_android;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,16 +16,12 @@ import android.widget.Toast;
 
 import com.example.apt_miniproject_android.backend.ServerCommunicator;
 import com.example.apt_miniproject_android.backend.ServerResponseAction;
+import com.example.apt_miniproject_android.model.StreamIdArray;
 import com.example.apt_miniproject_android.model.StreamInfo;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.Arrays;
 
 public class ViewStreamsActivity extends BaseActivity {
 
@@ -44,7 +39,7 @@ public class ViewStreamsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_streams);
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         comm = new ServerCommunicator(findViewById(android.R.id.content));
         fillGridServerAction = new ServerResponseAction() {
@@ -83,26 +78,19 @@ public class ViewStreamsActivity extends BaseActivity {
             }
         });
 
-        // set search button behavior
-        Button searchButton = (Button) findViewById(R.id.button_viewstreams_search);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(ViewStreamsActivity.this, "Search for streams...",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
         // set search text field behavior
         final EditText searchText = (EditText) findViewById(R.id.search_text);
         searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                Toast.makeText(ViewStreamsActivity.this, "Search for streams... " + textView.getText(),
-                        Toast.LENGTH_SHORT).show();
-                // go to search page
-                return true;
+                showSearchStreams(textView.getText().toString());
+                return false;
+            }
+        });
+        searchText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchText.setText("");
             }
         });
 
@@ -123,6 +111,13 @@ public class ViewStreamsActivity extends BaseActivity {
         });
 
     }
+
+
+    private void setSubButtonToAllStreams(){
+        subButton.setText(getString(R.string.all_streams_button_text));
+        showingAll = false;
+    }
+
 
     @Override
     protected void onStart() {
@@ -155,6 +150,42 @@ public class ViewStreamsActivity extends BaseActivity {
         comm.requestAllStreamInfoData(fillGridServerAction);
         showingAll = true;
     }
+
+    private void showSearchStreams(String searchTerm){
+
+        if(searchTerm.equals(""))
+            return;
+
+        // get stream data
+        comm.requestSearchStreamsData(searchTerm, new ServerResponseAction() {
+            @Override
+            public void handleResponse(String response) {
+                final Gson gson = new GsonBuilder().create();
+                StreamIdArray streamIDs = gson.fromJson(response, StreamIdArray.class);
+                comm.requestStreamInfoData(Arrays.asList(streamIDs.getStreamID()), new ServerResponseAction() {
+                    @Override
+                    public void handleResponse(String response) {
+                        StreamInfo[] streams = gson.fromJson(response, StreamInfo[].class);
+                        adapter.clear();
+                        for (StreamInfo stream : streams)
+                            adapter.addStreamInfo(stream);
+                        adapter.notifyDataSetChanged();
+                        try {
+                            InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                        } catch (Exception e) {
+                            // TODO: handle exception
+                        }
+                    }
+                });
+            }
+        });
+
+        setSubButtonToAllStreams();
+
+    }
+
+
 }
 
 

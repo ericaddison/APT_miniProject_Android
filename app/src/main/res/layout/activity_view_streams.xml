@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
+        android:isScrollContainer="true"
         tools:layout="@layout/fragment_title" />
 
     <GridView
@@ -23,6 +24,7 @@
         android:layout_weight="0.5"
         android:gravity="center"
         android:clipChildren="true"
+        android:isScrollContainer="true"
         android:numColumns="4"/>
 
 
@@ -31,23 +33,26 @@
         android:layout_width="match_parent"
         android:layout_marginTop="20dp"
         android:layout_height="0dp"
-        android:layout_weight="0.4"
+        android:layout_weight="0.2"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.3"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:layout_marginBottom="20dp"
+            android:isScrollContainer="true"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/search_text"
                 android:imeOptions="actionSearch"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.7"
                 android:ems="10"
                 android:inputType="textPersonName"
+                android:layout_gravity="center"
                 android:text="Find Streams" />
 
             <LinearLayout
@@ -69,35 +74,18 @@
                 </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.3"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/button_viewstreams_search"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="0.4"
-                android:text="Search" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_weight="0.6" />
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.4"
+            android:layout_height="wrap_content"
+            android:isScrollContainer="false"
             android:orientation="vertical">
 
             <Button
                 android:id="@+id/button_viewstreams_sub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:text="@string/sub_streams_button_text" />
         </LinearLayout>
 

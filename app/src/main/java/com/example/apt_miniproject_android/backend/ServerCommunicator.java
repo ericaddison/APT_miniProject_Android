@@ -108,7 +108,7 @@ public class ServerCommunicator {
 
         Uri.Builder uri = getBaseServicesUri();
         uri.appendPath(mContext.getString(R.string.url_service_streaminfo))
-                .appendQueryParameter(mContext.getString(R.string.url_parm_search_term), arr.toString());
+                .appendQueryParameter(mContext.getString(R.string.url_parm_stream_id), arr.toString());
         String myUrl = uri.build().toString();
         doRequest(myUrl, callbackAction);
     }
