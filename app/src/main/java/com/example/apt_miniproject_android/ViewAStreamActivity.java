@@ -70,8 +70,8 @@ public class ViewAStreamActivity extends BaseActivity {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(ViewAStreamActivity.this, "Next 16 Images",
-                        Toast.LENGTH_SHORT).show();
+                adapter.incrementStartIndex();
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -150,6 +150,11 @@ public class ViewAStreamActivity extends BaseActivity {
         private List<ImageURL> mThumbURLs;
         private int width;
         private GridView.LayoutParams parms;
+        private int startIndex = 0;
+
+        public void incrementStartIndex(){
+            startIndex = (startIndex+16>=mThumbURLs.size()) ? 0 : startIndex+16;
+        }
 
         public ImageURLAdapter(Context c) {
             mContext = c;
@@ -170,11 +175,13 @@ public class ViewAStreamActivity extends BaseActivity {
         }
 
         public int getCount() {
-            return mThumbURLs.size();
+            if ((mThumbURLs.size()- startIndex) >= 16)
+                return 16;
+            return (mThumbURLs.size()- startIndex);
         }
 
         public Object getItem(int position) {
-            return mThumbURLs.get(position);
+            return mThumbURLs.get(position+startIndex);
         }
 
         public long getItemId(int position) {
@@ -184,12 +191,14 @@ public class ViewAStreamActivity extends BaseActivity {
         // create a new ImageView for each item referenced by the Adapter
         public View getView(int position, View convertView, ViewGroup parent) {
             myImageView imageView;
+            position += startIndex;
 
             if (width != parent.getMeasuredWidth())
                 setWidth(parent.getMeasuredWidth());
 
             imageView = new myImageView(mContext);
-            imageView.setLayoutParams(parms);
+            if(parms!=null)
+                imageView.setLayoutParams(parms);
 
             if(!mThumbURLs.get(position).name.equals(""))
                 imageView.setImageURL(mThumbURLs.get(position), width);
