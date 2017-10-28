@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
+    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.example.apt_miniproject_android"
         minSdkVersion 21
@@ -37,5 +38,8 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:11.0.4'
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'org.apache.httpcomponents:httpcore:4.4.1'
+    compile 'org.apache.httpcomponents:httpclient:4.5'
     testCompile 'junit:junit:4.12'
 }

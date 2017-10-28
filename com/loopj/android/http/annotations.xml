@@ -1,0 +1,5 @@
+<root>
+    <item name='com.loopj.android.http.AsyncHttpResponseHandler'>
+        <annotation name='java.lang.Deprecated' />
+    </item>
+</root>
