@@ -71,6 +71,8 @@ public class FindNearbyActivity extends AbstractLocationActivity {
 
         View view = findViewById(android.R.id.content);
 
+        adapter.clear();
+
         final Location currentLocation = new Location("");
         currentLocation.setLatitude(location.getLatitude());
         currentLocation.setLongitude(location.getLongitude());
@@ -136,7 +138,6 @@ public class FindNearbyActivity extends AbstractLocationActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        adapter.clear();
     }
 
 
