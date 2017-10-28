@@ -34,6 +34,7 @@ public class UploadActivity extends BaseActivity {
     private String streamID = "0";
     private String streamName = "NULL";
     private Uri picturePath;
+    private String tag = "";
     private double lat = 0;
     private double lng = 0;
 
@@ -93,8 +94,8 @@ public class UploadActivity extends BaseActivity {
 
     public void uploadImage(View view) {
         EditText uploadEditText = (EditText) findViewById(R.id.uploadEditText);
-        String content = uploadEditText.getText().toString();
-        Log.v("UploadText", content);
+        tag = uploadEditText.getText().toString();
+        Log.v("UploadText", tag);
 
         if(getSignInAccount()==null)
             return;
@@ -145,9 +146,7 @@ public class UploadActivity extends BaseActivity {
         });
 
         // add tags if needed
-        //comm.requestTag(){
-
-        //}
+        TagHelper.addTag(tag, streamID);
 
     }
 
