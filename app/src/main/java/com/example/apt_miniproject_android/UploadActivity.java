@@ -96,6 +96,9 @@ public class UploadActivity extends BaseActivity {
         String content = uploadEditText.getText().toString();
         Log.v("UploadText", content);
 
+        if(getSignInAccount()==null)
+            return;
+
         // get Upload URL
         ServerCommunicator comm = new ServerCommunicator(findViewById(android.R.id.content));
 
@@ -130,9 +133,10 @@ public class UploadActivity extends BaseActivity {
                     // shows content of post request
                     //UploadHelper.postImage("http://httpbin.org/post", picturePath, streamID, lat, lng);
 
-                    // real request
-                    UploadHelper.postImage(uploadURL, picturePath, streamID, lat, lng);
+                    Log.d("USER", "token = " + getSignInAccount().getIdToken());
 
+                    // real request
+                    UploadHelper.postImage(uploadURL, picturePath, streamID, lat, lng, getSignInAccount().getIdToken());
 
                 } catch (Exception e) {
                     Log.e(TAG, "Other Error: " + e.getLocalizedMessage());
@@ -140,6 +144,10 @@ public class UploadActivity extends BaseActivity {
             }
         });
 
+        // add tags if needed
+        //comm.requestTag(){
+
+        //}
 
     }
 

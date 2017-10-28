@@ -24,7 +24,7 @@ public class UploadHelper {
     public UploadHelper() {
     }
 
-    public static void postImage(String uploadUrl, Uri picturePath, String streamID, double lat, double lng) {
+    public static void postImage(String uploadUrl, Uri picturePath, String streamID, double lat, double lng, String authToken) {
         // http://loopj.com/android-async-http/
         // search for "Uploading Files with RequestParams"
         File imgFile = new File(picturePath.getPath());
@@ -36,6 +36,7 @@ public class UploadHelper {
             params.put("lat", lat);
             params.put("lng", lng);
             params.put("url", "");
+            params.put("authToken", authToken);
             params.put("submit", "Submit");
 //            params.put("redirect", "https://apt17-miniproj-whiteteam.appspot.com/viewstream?streamID=" + streamID);
         } catch (FileNotFoundException e) {
@@ -76,6 +77,17 @@ public class UploadHelper {
                 // TODO Auto-generated method stub
                 String errorString = "";
                 Log.d(this.getClass().getSimpleName(), "upload failure " + statusCode);
+                String content = null;
+                try {
+                    content = new String(responseBody, "UTF-8"); // from http://stackoverflow.com/q/26787928
+                    //Log.d(this.getClass().getSimpleName(), "response:" + content);
+
+                    logLargeString(content);
+
+                } catch (UnsupportedEncodingException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 error.printStackTrace(System.out);
 
             }
