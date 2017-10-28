@@ -148,6 +148,11 @@ public class UploadActivity extends BaseActivity {
         // add tags if needed
         TagHelper.addTag(tag, streamID);
 
+        //Redirect to view a stream
+        Intent intent = new Intent(this, ViewAStreamActivity.class);
+        intent.putExtra("streamID", Long.parseLong(streamID));
+        startActivity(intent);
+
     }
 
     //Selects a image from a library
