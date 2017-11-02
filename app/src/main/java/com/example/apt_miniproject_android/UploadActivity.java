@@ -33,10 +33,10 @@ public class UploadActivity extends BaseActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private String streamID = "0";
     private String streamName = "NULL";
-    private Uri picturePath;
     private String tag = "";
     private double lat = 0;
     private double lng = 0;
+    private InputStream inputStream;
 
 
     @Override
@@ -111,33 +111,16 @@ public class UploadActivity extends BaseActivity {
 
                 // MultiPart Form Post
                 try {
-//                    // Turn picture path into byte array
-//                    byte[] data = null;
-//                    try {
-//                        ContentResolver cr = getBaseContext().getContentResolver();
-//                        InputStream inputStream = cr.openInputStream(picturePath);
-//                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-//                        data = baos.toByteArray();
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    String encoded = Base64.encodeToString(data, Base64.DEFAULT);
-//                     //print out byte array
-//                    Log.v("Encoded", encoded);
-
                     //TODO CREATE POST
                     // http://loopj.com/android-async-http/doc/com/loopj/android/http/AsyncHttpClient.html
 
                     // shows content of post request
-                    //UploadHelper.postImage("http://httpbin.org/post", picturePath, streamID, lat, lng);
+                    // UploadHelper.postImage("http://httpbin.org/post", inputStream, streamID, lat, lng, getSignInAccount().getIdToken());
 
                     Log.d("USER", "token = " + getSignInAccount().getIdToken());
 
                     // real request
-                    UploadHelper.postImage(uploadURL, picturePath, streamID, lat, lng, getSignInAccount().getIdToken());
+                    UploadHelper.postImage(uploadURL, inputStream, streamID, lat, lng, getSignInAccount().getIdToken());
 
                 } catch (Exception e) {
                     Log.e(TAG, "Other Error: " + e.getLocalizedMessage());
@@ -192,21 +175,26 @@ public class UploadActivity extends BaseActivity {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-            // Update Image Preview
-            // START
             uri = data.getData();
-            picturePath = uri;
 
-
-            // END
+            try {
+                inputStream = getContentResolver().openInputStream(uri);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
         } else if (requestCode == CameraActivity.CAMERA_RESULT){
             uri = (Uri) data.getParcelableExtra(getString(R.string.camera_filename));
-            picturePath = uri;
+
+            try {
+                inputStream = getContentResolver().openInputStream(uri);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
             lat = (double) data.getSerializableExtra(getString(R.string.latitude));
             lng = (double) data.getSerializableExtra(getString(R.string.longitude));
         }
-
 
         if (uri != null) {
             ImageView imageView = (ImageView) findViewById(R.id.uploadPreview);
