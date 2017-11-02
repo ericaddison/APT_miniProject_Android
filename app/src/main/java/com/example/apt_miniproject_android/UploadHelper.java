@@ -2,6 +2,7 @@ package com.example.apt_miniproject_android;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.http.Header;
@@ -24,33 +25,25 @@ public class UploadHelper {
     public UploadHelper() {
     }
 
-    public static void postImage(String uploadUrl, Uri picturePath, String streamID, double lat, double lng, String authToken) {
+    public static void postImage(String uploadUrl, InputStream input, String streamID, double lat, double lng, String authToken) {
+
         // http://loopj.com/android-async-http/
-        // search for "Uploading Files with RequestParams"
-        File imgFile = new File(picturePath.getPath());
         RequestParams params = new RequestParams();
-        try {
-            params.setForceMultipartEntityContentType(true);
-            params.put("file", imgFile, "image/jpeg");
-            params.put("streamID", streamID);
-            params.put("lat", lat);
-            params.put("lng", lng);
-            params.put("url", "");
-            params.put("authToken", authToken);
-            params.put("submit", "Submit");
-//            params.put("redirect", "https://apt17-miniproj-whiteteam.appspot.com/viewstream?streamID=" + streamID);
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        params.setForceMultipartEntityContentType(true);
+        params.put("file", input, "image", "image/jpeg");
+        params.put("streamID", streamID);
+        params.put("lat", lat);
+        params.put("lng", lng);
+        params.put("url", "");
+        params.put("authToken", authToken);
+        params.put("submit", "Submit");
 
         // http://loopj.com/android-async-http/doc/com/loopj/android/http/AsyncHttpClient.html
         AsyncHttpClient client = new AsyncHttpClient();
-        Log.d("postImage", "file name: " + imgFile.getPath());
         Log.d("postImage", uploadUrl);
         Log.d("postImage", "ID, lat, lng " + streamID + ", " + Double.toString(lat) + ", " + Double.toString(lng));
 
-
+        // custom headers to match webapp
         client.addHeader("Accept-Encoding:", "gzip, deflate");
         client.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
 
